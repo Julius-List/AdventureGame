@@ -1,11 +1,51 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
-autonumber
+' Define classes and their relationships
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+class Main {
+    +main(args: String[])
+}
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+class GameController {
+    -player: Player
+    +startGame(): void
+    +movePlayer(location: String): void
+    +handleEvent(): void
+}
+
+class Player {
+    -name: String
+    -health: int
+    -inventory: Inventory
+    +move(): void
+    +useItem(): void
+}
+
+class Inventory {
+    ' Add inventory-related attributes and methods as needed
+}
+
+abstract class Location {
+    +event(): void
+}
+
+class Beach {
+}
+
+class Jungle {
+}
+
+class Sea {
+}
+
+' Define relationships between classes
+Main --> GameController
+GameController --> Player
+Player --> Inventory
+
+' Locations inherit from Location
+Beach --|> Location
+Jungle --|> Location
+Sea --|> Location
+
 @enduml
