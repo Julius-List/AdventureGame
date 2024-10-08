@@ -5,7 +5,7 @@ public class GameController {
     int input;
 
 public void start() {
-    System.out.println("Her skal der hentes en tekstfil med introduktion og guide...");
+    System.out.println("You wake up on the beach of a deserted island blablabla. \n1: Stay on the beach.\n2: Walk to the sea.\n3: Walk to the jungle.");
 
     input = scan.nextInt();
     switch(input) { //switch
