@@ -5,6 +5,7 @@ public class Sea {
     int input;
 
     public void enter() {
+        input = scan.nextInt();
         System.out.println("You walk towards the sea...");
         System.out.println("You walk into the water. Is this a good idea?");
 

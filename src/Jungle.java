@@ -5,6 +5,7 @@ public class Jungle {
     int input;
 
     public void enter() {
+        input = scan.nextInt();
         System.out.println("You walk towards the jungle...");
         System.out.println("As you step into the jungle, you feel like you are being watched.");
 
