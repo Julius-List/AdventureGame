@@ -24,9 +24,8 @@ public void start() {
             junglePath.enter();
             break;
 
-
         default:
-            System.out.println("You can only choose between: \n1: beach, 2: sea or 3: jungle.");
+            System.out.println("You can only choose 1, 2, or 3.");
             break;
 
          }

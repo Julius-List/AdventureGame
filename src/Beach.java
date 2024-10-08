@@ -11,14 +11,21 @@ public class Beach {
 
     switch (input) {
         case 1:
+
             break;
 
         case 2:
+
             break;
 
         case 3:
+
             break;
 
-     }
+        default:
+            System.out.println("You can only choose 1, 2, or 3.");
+            break;
+
+    }
     }
 }
