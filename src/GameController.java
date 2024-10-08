@@ -29,6 +29,6 @@ public void start() {
             System.out.println("You can only choose between: \n1: beach, 2: sea or 3: jungle.");
             break;
 
+         }
     }
-}
 }
