@@ -1,3 +1,4 @@
+Introduction
 You wake up. Your mouth is dry, your body aches, and... you're lost in a fog of confusion. Who are you? 
 Slowly, you sit up, feeling the sand clinging to your skin uncomfortably. What happened, why are you here?
 Your eyes drift around, trying to make sense of your surroundings. A beach, that much is clear. But you're alone, with no one but the waves for company. 
@@ -5,3 +6,63 @@ Is this a bad dream, some version of cast away? You look down around you. Sadly,
 
 One thing you do know is that you're stranded. The only options are to stay or... well, you don't want to think about that. 
 The question is, what do you do now?
+
+Start
+A. You could walk to the jungle; there should be food and shelter.
+B. It may be safer to explore the beach; you have yet to learn what could await you if you venture inside the jungle.
+C. The sea should have fish you could catch. Maybe you could figure out how you ended up so far up the beach?
+
+-
+A3 Back to start
+You’re faced with the same spot you woke up on. Now the question is, explore the beach or walk closer to the shore.
+
+-
+AD1. You walk back to the beach.
+
+
+Jungle
+
+A1. You walk towards the jungle
+Each step feels heavy, straining you as you move branches away from the path. A feeling grabs hold of you; slowly, you look over your shoulder. Are you being watched? 
+You take a deep breath, surely you’re imagining it, but there is still a nagging feeling that something is wrong. You could go back to the beach or continue despite not knowing what is out there. 
+
+A2. You go back?
+No, you can’t shake the feeling that something is wrong, and you go back to the beach, feeling safer out in the open. The question is, what do you do now? (Exiting Jungle, back to start)
+
+-
+AB1. Do you venture right?
+You take a deep breath and decide to venture to the right; the jungle has to be the best bet to find food and a place to stay for the night. Not long after, you look up, noticing trees bearing fruit. Being brave pays off! But how in the fiddlesticks are you going to get them?
+
+AB2. You try to grab the fruit.
+Your stomach growls. You are hungry, and there is food right before you; what’s the worst that could happen?
+
+Random event.
+1. You grab one of the fruits. So close! Wait, what? Before you can react, a sneaky snake pops out and bites you in the hand! You rear back and fall on the hard ground. Now you’re not only hungry, but your hand hurts too. You make a rude gesture toward the snake before you walk away. ( -1 health)
+2. Hanging on the tree, you manage to grab a fruit. As you jump down, you look up, seeing a snake slither away. Breathing out, you take a bite of your well-deserved reward, feeling much better with food in your belly.
+
+You keep walking, and as you go, you see a beautiful golden leaf shining not far from you. Intrigued, you pick it up. Smiling to yourself, you walk through some bushes, noticing that you are back on the beach.
+
+Random event
+75% You make a small jump as a horn blares. Rattled by the sound, you run down the beach, seeing a ship near you. Waving your arms, the golden leaf reflects the sun, making it possible for the crew on the ship to see you. You’re saved! Now… where are you supposed to go now? Where is home even? Well, that is a story yet untold. 
+25% Taking a deep breath, you suddenly notice how hard it is to get the air into your lungs. With wide eyes, you look down at your hands, feeling how they start burning as blisters pop up like microwave popcorn on overdrive. The last thing you see is a ship on the horizon before you close your eyes. You didn’t even find your Willson, but the story ends here. Or does it?
+
+END
+-
+ABC1. You ignore the tree and continue
+As you walk, you hear a slight rippling sound. You know this sound! Moving around the corner, you see a stream. You’re thirsty and hungry, but you've already passed up on the fruit. Do you dare try to drink from the water?
+
+ABC2. Drink from the stream
+Random event 
+75% You squad beside the stream and fill your hands with the cold water. The moment you drink, you feel relief flood your body. Despite the hunger, you can continue a little longer now. With new energy, you start walking. (+ 1 health)
+25% Tired, you squat beside the stream and fill your hands with the cold water, but when you take a sip, a foul taste spreads in your mouth. Looking up, you see unknown animals as you bathe in the stream, making dirt and whatnot flow down where you have just taken a sip of water. Feeling sick, you rush away defeated. (-1 health)
+
+What now? A part of you wants to go back to the beach, and another wants to keep going.
+
+ABC3 You decide to continue
+
+
+-
+ABD1.
+
+-
+AC2. Do you venture left?
