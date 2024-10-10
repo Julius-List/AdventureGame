@@ -7,3 +7,5 @@ Logbog
 3. Efter vejledermøde, fik vi idéer til hvordan vi kunne gå videre, og vil nu starte på vores class diagram.  
 
 4. Vi blev færdig med vores class diagram, og gik igang med at kode, hvor målet var at gøre det så enkelt som muligt. Vi startede med en main, gamecontroller, player, sea, jungle og beach classes. Vi besluttede os for at prøve at bruge switchcase i stedet for if/else. Vi vil også prøve at bruge txt fil, til at skrive vores historie frem for inde i selve koden.  
+
+Vi har ændret klassediagrammerne flere gange og er blevet anbefalet noget der ligner det gamle diagram igen. Dog er det en god ide at inventory kommer ind i Player klassen - forklar hvorfor i rapporten. 
