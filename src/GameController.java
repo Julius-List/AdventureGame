@@ -1,45 +1,54 @@
 import java.util.Scanner;
 
 public class GameController {
-    Scanner scan = new Scanner(System.in);
-    int input;
-    boolean isFirstGame = true; // Laver en variabel som tjekker om det er første gang spilleren starter programmet.
+    private BaseLocation currentLocation;
+    private boolean isFirstGame = true;  // Flag to track the first time the game starts
+    private Scanner scanner = new Scanner(System.in);
+    private Item playerItems = new Item();  // Player's inventory
 
-public void start() {
-    if (isFirstGame) {
-    System.out.println("You wake up on the beach of a deserted island blablabla."); // startbesked.
-    isFirstGame = false; // sætter isFirstGame til false efter, så man ikke får startbeskeden når man returnerer til start.
+    public void start() {
+        if (isFirstGame) {
+            System.out.println("You wake up on the beach of a deserted island. You feel disoriented but determined to survive.");
+            isFirstGame = false;
+        }
 
+        showStartChoices();
     }
-    // Viser choice options.
-    System.out.println("1: Stay on the beach.");
-    System.out.println("2: Walk to the sea.");
-    System.out.println("3: Walk to the jungle.");
 
-    input = scan.nextInt();
+    // Show options from the starting point
+    private void showStartChoices() {
+        System.out.println("What would you like to do?");
+        System.out.println("1: Stay on the beach");
+        System.out.println("2: Walk to the sea");
+        System.out.println("3: Enter the jungle");
 
-    switch(input) { // switch
-        case 1: // kalder instance af beach.
-            Beach beachPath = new Beach();
-            beachPath.enter();
-            break;
+        int choice = scanner.nextInt();
 
-        case 2: // kalder instance af sea.
-            Sea seaPath = new Sea();
-            seaPath.enter();
-            break;
+        switch (choice) {
+            case 1:
+                setLocation(new Beach(playerItems, this));  // Pass playerItems og GameController to Beach
+                break;
+            case 2:
+                setLocation(new Sea(playerItems, this));    // Pass playerItems og GameController to Sea
+                break;
+            case 3:
+                setLocation(new Jungle(playerItems, this)); // Pass playerItems og GameController to Jungle
+                break;
+            default:
+                System.out.println("Invalid choice. Please select 1, 2, or 3.");
+                showStartChoices();
+                break;
+        }
+    }
 
-        case 3: // kalder instance af jungle.
-            Jungle junglePath = new Jungle();
-            junglePath.enter(this);
-            break;
+    // Method to update and move the player to a new location
+    private void setLocation(BaseLocation location) {
+        this.currentLocation = location;
+        currentLocation.enter();  // Enter the new location
+    }
 
-        // default case ved invalid choice der genkalder metoden igen (rekursion) så man kan vælge igen.
-        default:
-            System.out.println("You can only choose 1, 2, or 3.");
-            start();
-            break;
-
-         }
+    public void returnToStart() {
+        showStartChoices();  // Only prompt the choices, no starting message
     }
 }
+
