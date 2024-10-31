@@ -1,9 +1,11 @@
 public class Sea extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan bruge returnToStart()
+    private Player player; // Reference til Player så vi kan håndtere health.
 
-    public Sea(Item playerItems, GameController gameController) {
+    public Sea(Item playerItems, GameController gameController, Player player) {
         super("Sea", playerItems);
         this.gameController = gameController;
+        this.player = player;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class Sea extends BaseLocation {
 
             default:
                 System.out.println("Invalid choice. Please select 1, 2, or 3.");
-                handleChoices();  // Recursively call handleChoices() for invalid input
+                handleChoices();
                 break;
         }
     }

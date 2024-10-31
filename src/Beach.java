@@ -1,9 +1,11 @@
 public class Beach extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan bruge returnToStart()
+    private Player player; // Reference til Player så vi kan håndtere health.
 
-    public Beach(Item playerItems, GameController gameController) {
+    public Beach(Item playerItems, GameController gameController, Player player) {
         super("Beach", playerItems);
         this.gameController = gameController;
+        this.player = player;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class Beach extends BaseLocation {
                 break;
             default:
                 System.out.println("Invalid choice. Please select 1, 2, or 3.");
-                handleChoices();  // Recursively call handleChoices() for invalid input
+                handleChoices();
                 break;
         }
     }

@@ -3,8 +3,9 @@ import java.util.Scanner;
 public class GameController {
     private BaseLocation currentLocation;
     private boolean isFirstGame = true;  // Flag to track the first time the game starts
-    private Scanner scanner = new Scanner(System.in);
-    private Item playerItems = new Item();  // Player's inventory
+    private final Scanner scanner = new Scanner(System.in);
+    private final Item playerItems = new Item();  // Instance af Item
+    private final Player player = new Player(); // Instance af Player
 
     public void start() {
         if (isFirstGame) {
@@ -26,13 +27,13 @@ public class GameController {
 
         switch (choice) {
             case 1:
-                setLocation(new Beach(playerItems, this));  // Pass playerItems og GameController to Beach
+                setLocation(new Beach(playerItems, this, player));  // Pass playerItems og GameController to Beach
                 break;
             case 2:
-                setLocation(new Sea(playerItems, this));    // Pass playerItems og GameController to Sea
+                setLocation(new Sea(playerItems, this, player));    // Pass playerItems og GameController to Sea
                 break;
             case 3:
-                setLocation(new Jungle(playerItems, this)); // Pass playerItems og GameController to Jungle
+                setLocation(new Jungle(playerItems, this, player)); // Pass playerItems og GameController to Jungle
                 break;
             default:
                 System.out.println("Invalid choice. Please select 1, 2, or 3.");
