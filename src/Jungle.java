@@ -60,7 +60,7 @@ public class Jungle extends BaseLocation {
                 break;
 
             case 3:
-                System.out.println("You decide to go back to the beach.");
+                System.out.println("You can't shake the feeling that something is wrong. You decide to go back to the beach.");
                 gameController.returnToStart();
                 break;
 
@@ -115,8 +115,7 @@ public class Jungle extends BaseLocation {
                 break;
 
             case 2:
-                System.out.println("You ignore the stream and continue walking. It is getting dark.");
-                System.out.println("...");
+                System.out.println("You ignore the stream and continue walking. It is getting dark.\n...");
                 System.out.println("As you continue, you become exhausted from walking in the tall grass.");
                 player.loseHealth(1);
                 System.out.println("You reach a small hill.");
