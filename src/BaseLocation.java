@@ -4,6 +4,7 @@ de tre main locations nedarver fra.*/
 import java.util.Scanner;
 import java.util.Random;
 
+// The class initializes 'protected' variables for the subclasses.
 public abstract class BaseLocation {
     protected String locationName;
     protected Item playerItems;
@@ -15,8 +16,8 @@ public abstract class BaseLocation {
         this.playerItems = playerItems;
     }
 
-    // Abstract method for handling choices in each specific location
+    // Abstract method for handling choices in each subclass
     public abstract void handleChoices();
-    // Abstract method for entry behavior (unique to each location)
+    // Abstract method for entry behavior in each subclass
     public abstract void enter();
 }

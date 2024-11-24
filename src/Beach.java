@@ -1,6 +1,6 @@
 public class Beach extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan bruge returnToStart()
-    private Player player; // Reference til Player så vi kan håndtere health.
+    private final Player player; // Reference til Player så vi kan håndtere health.
 
     public Beach(Item playerItems, GameController gameController, Player player) {
         super("Beach", playerItems);
@@ -10,7 +10,7 @@ public class Beach extends BaseLocation {
 
     @Override
     public void enter() {
-        System.out.println("You stay on the beach but the sun is scorching.");
+        System.out.println("You stay on the " + locationName + " but the sun is scorching.");
         handleChoices();  // Call the specific choice handler for the beach
     }
 

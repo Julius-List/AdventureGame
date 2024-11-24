@@ -1,9 +1,10 @@
 public class Player {
-
     private int health;
+    private final GameController gameController; // Calling GameController so we can manage game over logic
 
-    public Player() {
+    public Player(GameController gameController) {
         this.health = 3;  // Spiller starter med 3 health points
+        this.gameController = gameController;
     }
 
     // Getter for liv
@@ -16,11 +17,11 @@ public class Player {
         this.health = health;
     }
 
-    // Spilleren mister liv
+    // Spilleren mister liv eller dør
     public void loseHealth(int amount) {
         this.health -= amount;
         if (this.health <= 0) {
-            System.out.println("You have died.");
+            gameController.gameOver(); // Calls game over method from GameController
         } else {
             System.out.println("You lost " + amount + " health. Current health: " + this.health);
         }

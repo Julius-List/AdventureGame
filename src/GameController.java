@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class GameController {
@@ -5,7 +6,12 @@ public class GameController {
     private boolean isFirstGame = true;  // Flag to track the first time the game starts
     private final Scanner scanner = new Scanner(System.in);
     private final Item playerItems = new Item();  // Instance af Item
-    private final Player player = new Player(); // Instance af Player
+    private final Player player; // Instance af Player
+
+    // Constructor
+    public GameController() {
+        this.player = new Player (this); // Passing GameController to Player to add game over logic.
+    }
 
     public void start() {
         if (isFirstGame) {
@@ -50,6 +56,12 @@ public class GameController {
 
     public void returnToStart() {
         showStartChoices();  // Only prompt the choices, no starting message
+    }
+
+    // Method to end the game if the player dies
+    public void gameOver() {
+        System.out.println("Game over. You lost.");
+        System.exit(0); // Terminates the process
     }
 }
 

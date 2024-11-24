@@ -1,6 +1,6 @@
 public class Jungle extends BaseLocation {
     private GameController gameController;
-    private Player player;
+    private final Player player;
 
     public Jungle(Item playerItems, GameController gameController, Player player) {
         super("Jungle", playerItems);
@@ -10,7 +10,7 @@ public class Jungle extends BaseLocation {
 
     @Override
     public void enter() {
-        System.out.println("You walk into the jungle. \nAs you step in you feel like you are being watched.");
+        System.out.println("You walk into the " + locationName + "." + "\nAs you step in you feel like you are being watched.");
         handleChoices();
     }
 

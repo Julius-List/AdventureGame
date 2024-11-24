@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-    private List<String> inventory;  // List to store collected items
+    private final List<String> inventory;  /* List to store collected items. 'Final' keyword to ensure only 1
+                                            inventory can exist at all times */
 
     public Item() {
         inventory = new ArrayList<>();  // Initialize the inventory list
