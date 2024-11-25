@@ -1,15 +1,18 @@
-public class Option {
-    private String id;             // Unikt id for valgmuligheden
-    private String nextScene;      // ID for den næste scene, som denne valgmulighed leder til
-    private String text;           // Tekst der beskriver valget
+import java.util.List;
 
-    public Option(String id, String nextScene, String text) {
+public class Option {
+    private String id;
+    private String nextScene;
+    private String text;
+    private List<RandomEvent> randomEvents; // List of possible random events
+
+    public Option(String id, String nextScene, String text, List<RandomEvent> randomEvents) {
         this.id = id;
         this.nextScene = nextScene;
         this.text = text;
+        this.randomEvents = randomEvents;
     }
 
-    // Gettere til at få adgang til valgmulighedernes egenskaber
     public String getId() {
         return id;
     }
@@ -20,5 +23,9 @@ public class Option {
 
     public String getText() {
         return text;
+    }
+
+    public List<RandomEvent> getRandomEvents() {
+        return randomEvents;
     }
 }
