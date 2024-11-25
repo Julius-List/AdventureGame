@@ -23,7 +23,7 @@ public class Player {
         if (this.health <= 0) {
             gameController.gameOver(); // Calls game over method from GameController
         } else {
-            System.out.println("You lost " + amount + " health. Current health: " + this.health);
+            System.out.println("\u001B[34mYou lost " + amount + " health. Current health: " + this.health + "\u001B[0m");
         }
     }
 
@@ -33,7 +33,7 @@ public class Player {
         if (this.health > 5) {
             this.health = 5;  // Man kan maks få 5 liv
         }
-        System.out.println("You gained " + amount + " health. Current health: " + this.health);
+        System.out.println("\u001B[34mYou gained " + amount + " health. Current health: " + this.health + "\u001B[0m");
     }
 }
 

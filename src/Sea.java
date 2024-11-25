@@ -1,5 +1,5 @@
 public class Sea extends BaseLocation {
-    private GameController gameController; // Reference til gameController så vi kan bruge returnToStart()
+    private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
     private final Player player; // Reference til Player så vi kan håndtere health.
 
     public Sea(Item playerItems, GameController gameController, Player player) {
@@ -11,7 +11,7 @@ public class Sea extends BaseLocation {
     @Override
     public void enter() {
         System.out.println("You walk towards the " + locationName + " and into the shallow water. Is this a good idea?");
-        handleChoices();  // Call the choice handler for the sea
+        handleChoices();
     }
 
     @Override

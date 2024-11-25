@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class GameController {
@@ -13,6 +12,7 @@ public class GameController {
         this.player = new Player (this); // Passing GameController to Player to add game over logic.
     }
 
+    // First run message
     public void start() {
         if (isFirstGame) {
             System.out.println("You wake up on the beach of a deserted island. You feel disoriented but determined to survive.");
@@ -60,7 +60,14 @@ public class GameController {
 
     // Method to end the game if the player dies
     public void gameOver() {
-        System.out.println("Game over. You lost.");
+        System.out.println("\u001B[31mG A M E  O V E R\u001B[0m" +
+                "\nYou didn't manage to survive the treacherous island. Better luck next time!");
+        System.exit(0); // Terminates the process
+    }
+
+    // Method to end the game if the player wins
+    public void gameWon() {
+        System.out.println("\u001B[32mCongratulations, survivor. You escaped the island!\u001B[0m");
         System.exit(0); // Terminates the process
     }
 }

@@ -16,11 +16,17 @@ public class Item {
             System.out.println(item + " has been added to your inventory.");
         } else {
             System.out.println("You already have " + item + " in your inventory.");
+            System.out.println("\u001B[34mYou already have " + item + " in your inventory.\u001B[0m");
         }
+    }
+
+    // Method to check if the inventory contains a specific item
+    public boolean containsItem(String item) {
+        return inventory.contains(item);
     }
 
     // Method to display the inventory
     public void showInventory() {
-        System.out.println("Your inventory contains: " + inventory);
+        System.out.println("\u001B[34mYour inventory contains: " + inventory + "\u001B[0m");
     }
 }
