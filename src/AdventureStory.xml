@@ -15,54 +15,57 @@
         <option id="C" nextScene="Sea"><![CDATA[The sea should have fish you could catch. Maybe you could figure out how you ended up so far up the beach?]]></option>
     </scene>
 
-    <!-- Jungle Scene -->
     <scene id="Jungle">
-        <prompt><![CDATA[Each step feels heavy, straining you as you move branches away from the path...]]></prompt>
-        <option id="GoBackJungle" nextScene="Start">No, you can’t shake the feeling that something is wrong...</option>
-        <option id="GoRightJungle" nextScene="FruitTree"><![CDATA[You take a deep breath and decide to venture to the right...]]></option>
+        <prompt><![CDATA[Each step feels heavy, straining you as you move branches away from the path.
+        A feeling grabs hold of you; slowly, you look over your shoulder. Are you being watched?
+        You take a deep breath, surely you’re imagining it, but there is still a nagging feeling that something is wrong.
+        You could go back to the beach or continue despite not knowing what is out there.
+        ]]></prompt>
+        <option id="GoBackJungle" nextScene="Start">No, you can’t shake the feeling that something is wrong, and you go back to the beach, feeling safer out in the open.
+            The question is, what do you do now?</option>
+        <option id="GoRightJungle" nextScene="FruitTree"><![CDATA[You take a deep breath and decide to venture to the right;
+        the jungle has to be the best bet to find food and a place to stay for the night.]]></option>
     </scene>
 
-    <!-- Fruit Tree Scene -->
     <scene id="FruitTree">
         <prompt><![CDATA[Not long after, you look up, noticing trees bearing fruit.
-        Being brave pays off! But how in the fiddlesticks are you going to get them?]]></prompt>
+    Being brave pays off! But how in the fiddlesticks are you going to get them?]]></prompt>
         <option id="GrabTheFruit" nextScene="GrabTheFruitRandom">
             <![CDATA[Your stomach growls. You are hungry, and there is food right before you; what’s the worst that could happen?]]>
         </option>
         <option id="IgnoreFruitTree" nextScene="NoFruit">
-            <![CDATA[As you walk, you hear a slight rippling sound. You know this sound! Moving around the corner, you see a stream...]]>
+            <![CDATA[You don't think you can get up the tree and decide to leave, hoping to find something else to eat later]]>
         </option>
     </scene>
 
-    <!-- New Scene for Handling Random Events After Grabbing the Fruit -->
-    <scene id="GrabTheFruitRandom">
+    <option id="GrabTheFruitRandom" nextScene="GoldenLeaf">
         <randomEvent>
-            <event probability="50"><![CDATA[You grab one of the fruits. So close! Wait, what? Before you can react, a sneaky snake pops out and bites you... ( -1 health)]]></event>
-            <event probability="50"><![CDATA[Hanging on the tree, you manage to grab the fruit. As you jump down, you look up, seeing a snake slither away...]]></event>
+            <event probability="50"><![CDATA[You grab one of the fruits. So close! Wait, what? Before you can react, a sneaky snake pops out and bites you in the hand! You rear back and fall on the hard ground. Now you’re not only hungry, but your hand hurts too. You make a rude gesture toward the snake before you walk away. ( -1 health)]]></event>
+            <event probability="50"><![CDATA[Hanging on the tree, you manage to grab the fruit. As you jump down, you look up, seeing a snake slither away. Breathing out, you take a bite of your well-deserved reward, feeling much better with food in your belly.]]></event>
         </randomEvent>
-        <!-- After random event is handled, automatically proceed to the next scene -->
-        <option id="Continue" nextScene="GoldenLeaf"><![CDATA[Continue on your journey.]]></option>
-    </scene>
+    </option>
 
-    <!-- Golden Leaf Scene -->
     <scene id="GoldenLeaf">
-        <prompt><![CDATA[There are only one way you can go now, so you follow the path hoping to find something else that can help you...]]></prompt>
+        <prompt><![CDATA[There are only one way you can go now, so you follow the path hoping to find something else that can help you. You keep walking, and as you go, you see a beautiful golden leaf shining not far from you. Intrigued, you pick it up. Smiling to yourself, you walk through some bushes, noticing that you are back on the beach.]]></prompt>
         <randomEvent>
-            <event probability="75"><![CDATA[You make a small jump as a horn blares...]]></event>
-            <event probability="25"><![CDATA[Taking a deep breath, you suddenly notice how hard it is to get the air into your lungs...]]></event>
+            <event probability="75"><![CDATA[You make a small jump as a horn blares. Rattled by the sound, you run down the beach, seeing a ship near you. Waving your arms, the golden leaf reflects the sun, making it possible for the crew on the ship to see you. You’re saved! Now… where are you supposed to go now? Where is home even? Well, that is a story yet untold.]]></event>
+            <event probability="25"><![CDATA[Taking a deep breath, you suddenly notice how hard it is to get the air into your lungs. With wide eyes, you look down at your hands, feeling how they start burning as blisters pop up like microwave popcorn on overdrive. The last thing you see is a ship on the horizon before you close your eyes. You didn’t even find your Wilson, but the story ends here. Or does it?]]></event>
         </randomEvent>
     </scene>
 
-    <!-- No Fruit Scene -->
     <scene id="NoFruit">
-        <prompt><![CDATA[As you walk, you hear a slight rippling sound...]]></prompt>
-        <option id="IgnoreStream" nextScene="LeaveStream">Need text</option>
-        <option id="DrinkStream" nextScene="DrankWater">
-            <randomEvent>
-                <event probability="75"><![CDATA[You squat beside the stream and fill your hands with the cold water...]]></event>
-                <event probability="25"><![CDATA[Tired, you squat beside the stream and fill your hands with the cold water, but when you take a sip...]]></event>
-            </randomEvent>
-        </option>
+        <prompt><![CDATA[As you walk, you hear a slight rippling sound. You know this sound! Moving around the corner, you see a stream. You’re thirsty and hungry, but you've already passed up on the fruit. Do you dare try to drink from the water?]]></prompt>
+        <option id="IgnoreStream" nextScene="LeaveStream"><![CDATA[You don't dare drinking something you have no idea where is coming from and leave the stream]]></option>
+        <option id="DrinkStream" nextScene="DrankWater"><![CDATA[
+           You're so thirsty you don't care about the consequences and decide to drink the water.
+        ]]></option>
+    </scene>
+
+    <scene id="DrankWater">
+        <randomEvent>
+            <event probability="75"><![CDATA[You squad beside the stream and fill your hands with the cold water. The moment you drink, you feel relief flood your body. Despite the hunger, you can continue a little longer now. With new energy, you start walking. (+ 1 health)]]></event>
+            <event probability="25"><![CDATA[Tired, you squat beside the stream and fill your hands with the cold water, but when you take a sip, a foul taste spreads in your mouth. Looking up, you see unknown animals as you bathe in the stream, making dirt and whatnot flow down where you have just taken a sip of water. Feeling sick, you rush away defeated. (-1 health)]]></event>
+        </randomEvent>
     </scene>
 
 </adventuretext>
