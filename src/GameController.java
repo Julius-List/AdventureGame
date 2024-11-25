@@ -1,45 +1,60 @@
 import java.util.Scanner;
 
 public class GameController {
-    Scanner scan = new Scanner(System.in);
-    int input;
-    boolean isFirstGame = true; // Laver en variabel som tjekker om det er første gang spilleren starter programmet.
+    private static final Scanner scan = new Scanner(System.in);
+    private static XMLHandler xmlHandler;
+    private static boolean isFirstGame = true;
 
-public void start() {
-    if (isFirstGame) {
-    System.out.println("You wake up on the beach of a deserted island blablabla."); // startbesked.
-    isFirstGame = false; // sætter isFirstGame til false efter, så man ikke får startbeskeden når man returnerer til start.
-
+    // Constructor til GameController, der tager en XMLHandler
+    public GameController(XMLHandler xmlHandler) {
+        GameController.xmlHandler = xmlHandler;
     }
-    // Viser choice options.
-    System.out.println("1: Stay on the beach.");
-    System.out.println("2: Walk to the sea.");
-    System.out.println("3: Walk to the jungle.");
 
-    input = scan.nextInt();
+    public static void start() {
+        String currentSceneId = "Start"; // Start med scenen "Start"
 
-    switch(input) { // switch
-        case 1: // kalder instance af beach.
-            Beach beachPath = new Beach();
-            beachPath.enter();
-            break;
+        while (true) {
+            Scene currentScene = xmlHandler.getSceneById(currentSceneId);
+            if (currentScene == null) {
+                System.out.println("Fejl: Kunne ikke finde scenen.");
+                break;
+            }
 
-        case 2: // kalder instance af sea.
-            Sea seaPath = new Sea();
-            seaPath.enter();
-            break;
+            // Viser tekst for første besøg eller prompt
+            if (isFirstGame && currentScene.getFirstVisit() != null) {
+                System.out.println(currentScene.getFirstVisit());
+                isFirstGame = false;
+            } else if (currentScene.getPrompt() != null) {
+                System.out.println(currentScene.getPrompt());
+            }
 
-        case 3: // kalder instance af jungle.
-            Jungle junglePath = new Jungle();
-            junglePath.enter(this);
-            break;
+            // Viser valgmuligheder
+            if (currentScene.getOptions() != null && !currentScene.getOptions().isEmpty()) {
+                for (int i = 0; i < currentScene.getOptions().size(); i++) {
+                    System.out.println((i + 1) + ": " + currentScene.getOptions().get(i).getText());
+                }
 
-        // default case ved invalid choice der genkalder metoden igen (rekursion) så man kan vælge igen.
-        default:
-            System.out.println("You can only choose 1, 2, or 3.");
-            start();
-            break;
+                int input = scan.nextInt();
 
-         }
+                if (input < 1 || input > currentScene.getOptions().size()) {
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+                    continue;
+                }
+
+                // Skift til næste scene baseret på spillerens valg
+                String nextSceneId = currentScene.getOptions().get(input - 1).getNextScene();
+
+                // Hvis spilleren vælger at gå til junglen, så opretter vi en Jungle instans og kalder dens enter() metode
+                if (nextSceneId.equals("Jungle")) {
+                    Jungle jungleAdventure = new Jungle(xmlHandler);
+                    jungleAdventure.enter();
+                } else {
+                    currentSceneId = nextSceneId;
+                }
+            } else {
+                System.out.println("Ingen valgmuligheder tilgængelige, spillet afsluttes.");
+                break;
+            }
+        }
     }
 }

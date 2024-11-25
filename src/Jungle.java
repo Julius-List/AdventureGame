@@ -1,44 +1,58 @@
 import java.util.Scanner;
 
 public class Jungle {
-    Scanner scan = new Scanner(System.in);
-    int input;
+    private XMLHandler xmlHandler;  // Reference til XMLHandler for at hente scener
+    private String currentSceneId = "Jungle"; // Start ID for junglescenen
+    private Scanner scan = new Scanner(System.in);
 
-    public void enter(GameController gameController) { // Så vi kan bruge GameController instance
-        System.out.println("You walk towards the jungle...");
-        firstChoice(gameController); // kalder firstChoice med gameController som parameter.
-
+    // Constructor til Jungle klassen
+    public Jungle(XMLHandler xmlHandler) {
+        this.xmlHandler = xmlHandler;
     }
 
-    private void firstChoice(GameController gameController) { // bruger gameController så vi kan calle start i option 1.
-        System.out.println("As you step into the jungle, you feel like you are being watched.");
-        System.out.println("1: Do you go back?");
-        System.out.println("2: Do you turn right?");
-        System.out.println("3: Do you turn left?");
-
-        int input = scan.nextInt();
-
-
-        switch (input) {
-            case 1:
-                System.out.println("You can't shake the feeling that something is wrong. You head back to the beach.");
-                gameController.start(); // Returnerer til start.
+    // Denne metode bruges til at starte jungleeventyret
+    public void enter() {
+        while (true) {
+            Scene currentScene = xmlHandler.getSceneById(currentSceneId);
+            if (currentScene == null) {
+                System.out.println("Fejl: Kunne ikke finde scenen.");
                 break;
+            }
 
-            case 2:
-                System.out.println("You decide to take the path to your right. You stumble upon a tree bearing fruits.");
+            // Udskriv scenetekst (prompt eller andet)
+            if (currentScene.getPrompt() != null) {
+                System.out.println(currentScene.getPrompt());
+            }
+
+            // Udskriv valgmuligheder
+            if (currentScene.getOptions() != null && !currentScene.getOptions().isEmpty()) {
+                for (int i = 0; i < currentScene.getOptions().size(); i++) {
+                    System.out.println((i + 1) + ": " + currentScene.getOptions().get(i).getText());
+                }
+
+                int input = scan.nextInt();
+
+                if (input < 1 || input > currentScene.getOptions().size()) {
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+                    continue;
+                }
+
+                // Find den næste scene baseret på brugerens valg
+                String nextSceneId = currentScene.getOptions().get(input - 1).getNextScene();
+
+                // Hvis spilleren beslutter sig for at gå tilbage til stranden, bruger vi GameController
+                if (nextSceneId.equals("Start")) {
+                    System.out.println("Du vender tilbage til stranden.");
+                    GameController.start();
+                    break;
+                } else {
+                    // Opdater til næste scene i junglen
+                    currentSceneId = nextSceneId;
+                }
+            } else {
+                System.out.println("Ingen valgmuligheder tilgængelige, jungleeventyret afsluttes.");
                 break;
-
-            case 3:
-                System.out.println("As you turn left, you trip over a branch and tumble down a mudslide. (You find a lighter) How convenient! Walk back to the beach or continue?");
-                break;
-
-            // default case ved invalid choice der genkalder metoden igen (rekursion) så man kan vælge igen.
-            default:
-                System.out.println("You can only choose 1, 2, or 3.");
-                firstChoice(gameController);
-                break;
-
+            }
         }
     }
 }
