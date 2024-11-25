@@ -22,12 +22,19 @@ public class Jungle {
                 break;
             }
 
-            // Display prompt for the current scene
+            // Display prompt if it exists
             if (currentScene.getPrompt() != null) {
                 System.out.println(currentScene.getPrompt());
             }
 
-            // Display available options for the current scene
+            // Handle random events if present in this scene (like in GrabTheFruitRandom)
+            if (currentScene.getRandomEvents() != null && !currentScene.getRandomEvents().isEmpty()) {
+                handleRandomEvent(currentScene.getRandomEvents());
+            }
+            System.out.println("Handling random event for scene: " + currentScene.getId());
+
+
+            // Display available options if they exist
             if (currentScene.getOptions() != null && !currentScene.getOptions().isEmpty()) {
                 for (int i = 0; i < currentScene.getOptions().size(); i++) {
                     System.out.println((i + 1) + ": " + currentScene.getOptions().get(i).getText());
@@ -40,18 +47,11 @@ public class Jungle {
                     continue;
                 }
 
-                // Get the selected option
                 Option selectedOption = currentScene.getOptions().get(choice - 1);
-
-                // Check if the selected option contains random events
-                if (selectedOption.getRandomEvents() != null && !selectedOption.getRandomEvents().isEmpty()) {
-                    handleRandomEvent(selectedOption.getRandomEvents());
-                }
-
-                // Update the current scene based on the selected option
-                currentSceneId = selectedOption.getNextScene();
-            } else {
-                System.out.println("Ingen valgmuligheder tilgængelige, spillet afsluttes.");
+                currentSceneId = selectedOption.getNextScene(); // Move to the next scene
+            } else if (currentScene.getOptions() == null && currentScene.getRandomEvents() == null) {
+                // If there are no options and no random events, break (scene is finished)
+                System.out.println("Scenen er afsluttet.");
                 break;
             }
         }

@@ -1,21 +1,23 @@
 import java.util.List;
 
 public class Scene {
-    private String id;              // Unikt id for scenen (f.eks. "Jungle" eller "Start")
-    private String firstVisit;      // Tekst for første besøg i scenen
-    private String secondVisit;     // Tekst for andet besøg (kan være null)
-    private String prompt;          // Prompt tekst, der beskriver situationen (kan være null)
-    private List<Option> options;   // Liste over valgmuligheder, som spilleren kan vælge
+    private String id;                  // Unique ID of the scene
+    private String firstVisit;          // Text for the first visit
+    private String secondVisit;         // Text for second visit (optional)
+    private String prompt;              // Main prompt of the scene
+    private List<Option> options;       // List of available options for the scene
+    private List<RandomEvent> randomEvents; // List of random events, if any
 
-    public Scene(String id, String firstVisit, String secondVisit, String prompt, List<Option> options) {
+    public Scene(String id, String firstVisit, String secondVisit, String prompt, List<Option> options, List<RandomEvent> randomEvents) {
         this.id = id;
         this.firstVisit = firstVisit;
         this.secondVisit = secondVisit;
         this.prompt = prompt;
         this.options = options;
+        this.randomEvents = randomEvents;
     }
 
-    // Gettere til at få adgang til scenernes egenskaber
+    // Getters to access scene properties
     public String getId() {
         return id;
     }
@@ -34,5 +36,9 @@ public class Scene {
 
     public List<Option> getOptions() {
         return options;
+    }
+
+    public List<RandomEvent> getRandomEvents() {
+        return randomEvents;
     }
 }

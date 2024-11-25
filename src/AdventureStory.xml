@@ -2,13 +2,7 @@
 <adventuretext>
     <!-- Starten af spillet -->
     <scene id="Start">
-        <firstVisit><![CDATA[You wake up. Your mouth is dry, your body aches, and... you're lost in a fog of confusion. Who are you?
-            Slowly, you sit up, feeling the sand clinging to your skin uncomfortably. What happened, why are you here?
-            Your eyes drift around, trying to make sense of your surroundings. A beach, that much is clear. But you're alone, with no one but the waves for company.
-            Is this a bad dream, some version of cast away? You look down around you. Sadly, no Wilson to keep you company. One thing you do know is that you're stranded.
-            The only options are to stay or... well, you don't want to think about that.
-            The question is, what do you do now?
-        ]]></firstVisit>
+        <firstVisit><![CDATA[You wake up. Your mouth is dry, your body aches, and... you're lost in a fog of confusion. Who are you? Slowly, you sit up, feeling the sand clinging to your skin uncomfortably. What happened, why are you here? Your eyes drift around, trying to make sense of your surroundings. A beach, that much is clear. But you're alone, with no one but the waves for company. Is this a bad dream, some version of cast away? You look down around you. Sadly, no Wilson to keep you company. One thing you do know is that you're stranded. The only options are to stay or... well, you don't want to think about that. The question is, what do you do now?]]></firstVisit>
         <SecondVisit>You return to where you woke up, but now what do you do?</SecondVisit>
         <option id="A" nextScene="Jungle"><![CDATA[You could walk to the jungle; there should be food and shelter.]]></option>
         <option id="B" nextScene="Beach"><![CDATA[It may be safer to explore the beach; you have yet to learn what could await you if you venture inside the jungle.]]></option>
@@ -38,12 +32,12 @@
         </option>
     </scene>
 
-    <option id="GrabTheFruitRandom" nextScene="GoldenLeaf">
+    <scene id="GrabTheFruitRandom" nextScene="GoldenLeaf">
         <randomEvent>
             <event probability="50"><![CDATA[You grab one of the fruits. So close! Wait, what? Before you can react, a sneaky snake pops out and bites you in the hand! You rear back and fall on the hard ground. Now you’re not only hungry, but your hand hurts too. You make a rude gesture toward the snake before you walk away. ( -1 health)]]></event>
             <event probability="50"><![CDATA[Hanging on the tree, you manage to grab the fruit. As you jump down, you look up, seeing a snake slither away. Breathing out, you take a bite of your well-deserved reward, feeling much better with food in your belly.]]></event>
         </randomEvent>
-    </option>
+    </scene>
 
     <scene id="GoldenLeaf">
         <prompt><![CDATA[There are only one way you can go now, so you follow the path hoping to find something else that can help you. You keep walking, and as you go, you see a beautiful golden leaf shining not far from you. Intrigued, you pick it up. Smiling to yourself, you walk through some bushes, noticing that you are back on the beach.]]></prompt>

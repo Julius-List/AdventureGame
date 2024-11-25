@@ -1,18 +1,15 @@
-import java.util.List;
-
 public class Option {
-    private String id;
-    private String nextScene;
-    private String text;
-    private List<RandomEvent> randomEvents; // List of possible random events
+    private String id;                // Unique ID for the option
+    private String nextScene;         // ID of the next scene if this option is chosen
+    private String text;              // Description of the option
 
-    public Option(String id, String nextScene, String text, List<RandomEvent> randomEvents) {
+    public Option(String id, String nextScene, String text) {
         this.id = id;
         this.nextScene = nextScene;
         this.text = text;
-        this.randomEvents = randomEvents;
     }
 
+    // Getters to access option properties
     public String getId() {
         return id;
     }
@@ -23,9 +20,5 @@ public class Option {
 
     public String getText() {
         return text;
-    }
-
-    public List<RandomEvent> getRandomEvents() {
-        return randomEvents;
     }
 }
