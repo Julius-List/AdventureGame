@@ -51,7 +51,7 @@ public class Jungle extends BaseLocation {
                     }
                 } else if (fruitChoice == 2) {
                     System.out.println("You decide to ignore the fruit tree and continue through the jungle.");
-                    continueJungleChoices1();
+                    continueJungleChoices();
                 } else {
                     System.out.println("Invalid choice. Please select 1 or 2.");
                     handleChoices();
@@ -82,7 +82,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You continue deeper into the jungle, ready for the unknown.");
-                continueJungleChoices1();
+                continueJungleChoices();
                 break;
             default:
                 System.out.println("Invalid choice. Please select 1 or 2.");
@@ -95,21 +95,21 @@ public class Jungle extends BaseLocation {
         System.out.println("\nYou continue walking and stumble upon a leaf. A pretty leaf... You put it in your pocket.");
         playerItems.addItem("Pretty leaf");
 
-        int chance = random.nextInt(4);
+        int chance = random.nextInt(4); // Generates a random integer between 1-4
 
-        if (chance < 3) {
+        if (chance < 3) { // If the random generated number is < 3 (75% chance), the game is won
             System.out.println("\nAll of a sudden you hear the sound of a horn coming from the beach. A ship? Could it be?" +
                     "\nYou start sprinting back to the beach where you see a vessel in the sea. You jump and wave with " +
                     "your arms, and the ship notices you.\n");
             gameController.gameWon();
-        } else {
+        } else { // If the random generated number is not < 3 (25% chance), the game is lost
             System.out.println("\nAs you are marching through the foliage, you notice your skin starts to flare up " +
                     "after touching the leaf. \nYou feel your throat swelling and you start suffocating.\n");
             gameController.gameOver();
         }
     }
 
-    private void continueJungleChoices1() {
+    private void continueJungleChoices() {
         System.out.println("As you walk, you come across a small stream of freshwater.");
         System.out.println("1: Drink from the stream");
         System.out.println("2: Ignore the stream and continue walking");
@@ -129,7 +129,7 @@ public class Jungle extends BaseLocation {
                 break;
             default:
                 System.out.println("Invalid choice. Please select 1 or 2.");
-                continueJungleChoices1();
+                continueJungleChoices();
                 break;
         }
     }
@@ -153,7 +153,7 @@ public class Jungle extends BaseLocation {
 
         switch (choice) {
             case 1:
-                continueJungleChoices1();
+                tarantulaChoices();
                 break;
             case 2:
                 System.out.println("You decide to head back to the beach.");
@@ -165,6 +165,39 @@ public class Jungle extends BaseLocation {
                 break;
         }
     }
+
+    private void tarantulaChoices() {
+        System.out.println("You continue your trek in the jungle. As you walk, you feel something itching on your neck.");
+        System.out.println("1: Ignore the feeling");
+        System.out.println("2. Itch your neck");
+
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                fishingHatEvent();
+                break;
+            case 2:
+                System.out.println("As you try to touch the tingling spot on your neck, you hit a tarantula " +
+                        "crawling on your shoulder which angrily bites back and jumps off your shoulder and " +
+                        "disappears into some leaves on the forest floor.");
+                player.loseHealth(1);
+                fishingHatEvent();
+                break;
+                default:
+                    System.out.println("Invalid choice. Please select 1 or 2.");
+                    tarantulaChoices();
+                    break;
+        }
+    }
+private void fishingHatEvent() {
+    System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
+            "Neat! You put it in your pocket.");
+    playerItems.addItem("Fishing hat");
+    System.out.println("\nYou decide to continue foraging, but the jungle is too dense to walk through. " +
+            "It is time to walk back to the beach...");
+    gameController.returnToStart();
+}
 
     private void hillChoices() {
         System.out.println("1: Walk along the hill");
@@ -207,7 +240,7 @@ public class Jungle extends BaseLocation {
                     System.out.println("As you turn around and descend from the hill, your body gives up...");
                     gameController.gameOver();
                 } else if (topOfHillChoice == 2) {
-                    inventoryDependentChoice();
+                    inventoryDependentEvent();
                 } else {
                     System.out.println("Invalid choice. Please select 1 or 2.");
                 }
@@ -219,24 +252,57 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void inventoryDependentChoice() {
+    private void inventoryDependentEvent() {
         if (playerItems.containsItem("Pretty rock")) {
             System.out.println("On your last legs, you make it to the village and approach the villagers. " +
                     "You take the pretty rock that you found in the sea out of your pocket and present it to the " +
-                    "villagers.\nThe villagers greet you with food and water and helps you return home");
+                    "villagers.\nThe villagers greet you with food and water and helps you return home.");
             gameController.gameWon();
         } else {
             System.out.println("You walk closer but realise that the villagers are weary of you and decide not to " +
                     "approach as you have nothing to offer. You have to walk back, despite your exhaustion.\n\n" +
                     "You find a small secluded area and steal some food before hiding under a giant tree.");
-
             player.gainHealth(1);
-
             System.out.println("\nYou wake up feeling better, despite your body aching from sleeping on the cold ground. " +
                     "You know you must keep moving.\n" +
                     "As you walk, you find yourself back on the beach where you discover a lookout post. " +
                     "The ladder seems withered.\n\n" +
                     "Do you climb it, or decide against it and keep walking?");
+            System.out.println("1: Attempt to climb the ladder");
+            System.out.println("2: Continue walking on the beach");
+            lookoutPostEvent();
+        }
+    }
+    public void lookoutPostEvent() {
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                int chance = random.nextInt(5);
+
+                if (chance == 0) { // 20% chance
+                    System.out.println("The ladder breaks halfway up and you fall onto your back on the sand.");
+                    player.loseHealth(1);
+                    System.out.println("\n...\n Disoriented, you blink a few times and get up. Better not try that again." +
+                            "\nYou look around. This part of the beach seems familiar...\n" +
+                            "You are back at where you woke up!");
+                    gameController.returnToStart();
+                } else { // 80% chance
+                    System.out.println("You climb the ladder and make it all the way to the top of the outpost. You find " +
+                            "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
+                    playerItems.addItem("Strange map");
+                    System.out.println("You carefully crawl down again and start your search for the marked location.");
+                    // Husk!! Method call for a Beach location ======================================================================================
+                }
+                break;
+                case 2:
+                    System.out.println("You continue walking on the beach and end up where you woke up.");
+                    gameController.returnToStart();
+                break;
+            default:
+                System.out.println("Invalid choice. Please select 1 or 2.");
+                lookoutPostEvent();
+                break;
         }
     }
 }
