@@ -31,7 +31,6 @@ public class Sea extends BaseLocation {
                 System.out.println("With wet feet, you walk back to where you woke up.");
                 gameController.returnToStart();
                 break;
-
             default:
                 System.out.println("Invalid choice. Please select 1, 2, or 3.");
                 handleChoices();

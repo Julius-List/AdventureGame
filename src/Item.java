@@ -6,16 +6,15 @@ public class Item {
                                             inventory can exist at all times */
 
     public Item() {
-        inventory = new ArrayList<>();  // Initialize the inventory list
+        inventory = new ArrayList<>();  // Initialize as ArrayList
     }
 
     // Method to add an item to the inventory
     public void addItem(String item) {
-        if (!inventory.contains(item)) {  // Avoid duplicates if needed
+        if (!inventory.contains(item)) {  // Avoid duplicates
             inventory.add(item);
-            System.out.println(item + " has been added to your inventory.");
+            System.out.println("\u001B[34m" + item + " has been added to your inventory.\u001B[0m");
         } else {
-            System.out.println("You already have " + item + " in your inventory.");
             System.out.println("\u001B[34mYou already have " + item + " in your inventory.\u001B[0m");
         }
     }

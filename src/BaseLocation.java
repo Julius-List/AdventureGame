@@ -1,10 +1,10 @@
-/*Formålet med BaseLocation er at den som abstract class indeholder den gængse struktur og funktionalitet som
-de tre main locations nedarver fra.*/
+/* Formålet med BaseLocation er at den som abstract class indeholder den gængse struktur og funktionalitet som
+de tre main locations nedarver fra */
 
 import java.util.Scanner;
 import java.util.Random;
 
-// The class initializes 'protected' variables for the subclasses.
+// Initializes protected variables for the subclasses
 public abstract class BaseLocation {
     protected String locationName;
     protected Item playerItems;
