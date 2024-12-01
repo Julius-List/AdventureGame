@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
-// Initializes protected variables for the subclasses
+// Initializes protected variables for subclasses
 public abstract class BaseLocation {
     protected String locationName;
     protected Scanner scanner = new Scanner(System.in);
@@ -11,9 +11,14 @@ public abstract class BaseLocation {
         this.locationName = locationName;
     }
 
-    // Abstract method for handling choices in each subclass
+    // Concrete method to show unique entry messages in subclasses
+    public void enter() {
+        System.out.println(getEntryMessage());
+        handleChoices();
+    }
+
+    // Abstract method for handling choices in subclasses
     public abstract void handleChoices();
 
-    // Abstract method for entry behavior in each subclass
-    public abstract void enter();
+    protected abstract String getEntryMessage();
 }

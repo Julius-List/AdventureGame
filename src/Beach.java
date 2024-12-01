@@ -1,17 +1,17 @@
 public class Beach extends BaseLocation {
-    private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
+    private final GameController gameController; // Reference til gameController så vi kan kalde dens metoder
     private final Player player; // Reference til Player så vi kan håndtere health.
 
-    public Beach(GameController gameController, Player player) {
-        super("Beach");
+    public Beach(String locationName, GameController gameController, Player player) {
+        super(locationName);
         this.gameController = gameController;
         this.player = player;
     }
 
+    // Overrides so a unique entry message can be shown
     @Override
-    public void enter() {
-        System.out.println("You stay on the " + locationName + " but the sun is scorching and you start feeling dizzy.");
-        handleChoices();
+    protected String getEntryMessage() {
+        return "You stay on the " + locationName + " but the sun is scorching and you start feeling dizzy.";
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Beach extends BaseLocation {
             case 1:
                 System.out.println("You stay on the beach for the rest of the day, just sitting in the sand. " +
                         "You begin to feel confused and nauseous as a heatstroke develops. \nBut you stay put.");
-                gameController.gameOver(); // Calls game over method from GameController
+                player.loseHealth(player.getHealth()); // Player loses his current health
                 break;
             case 2:
                 System.out.println("You start exploring the beach, and find a necklace wedged between some drywood. " +
@@ -41,7 +41,7 @@ public class Beach extends BaseLocation {
                 // Option: Sea or Jungle location.
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1, 2, or 3.");
+                gameController.printInvalidChoiceMessage(3);
                 handleChoices();
                 break;
         }

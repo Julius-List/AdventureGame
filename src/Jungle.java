@@ -1,17 +1,17 @@
 public class Jungle extends BaseLocation {
-    private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
+    private final GameController gameController; // Reference til gameController så vi kan kalde dens metoder
     private final Player player; // Reference til Player så vi kan håndtere health og inventory.
 
-    public Jungle(GameController gameController, Player player) {
-        super("Jungle");
+    public Jungle(String locationName, GameController gameController, Player player) {
+        super(locationName);
         this.gameController = gameController;
         this.player = player;
     }
 
+    // Overrides so a unique entry message can be shown
     @Override
-    public void enter() {
-        System.out.println("You walk into the " + locationName + "." + "\nAs you step in you feel like you are being watched.");
-        handleChoices();
+    protected String getEntryMessage() {
+        return "You walk into the " + locationName + "." + "\nAs you step in you feel like you are being watched.";
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Jungle extends BaseLocation {
                     System.out.println("You decide to ignore the fruit tree and continue through the jungle.");
                     continueJungleChoices();
                 } else {
-                    System.out.println("Invalid choice. Please select 1 or 2.");
+                    gameController.printInvalidChoiceMessage(2);
                     handleChoices();
                 }
                 break;
@@ -62,7 +62,7 @@ public class Jungle extends BaseLocation {
                 gameController.returnToStart();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1, 2, or 3.");
+                gameController.printInvalidChoiceMessage(3);
                 handleChoices();
                 break;
         }
@@ -85,7 +85,7 @@ public class Jungle extends BaseLocation {
                 continueJungleChoices();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1 or 2.");
+                gameController.printInvalidChoiceMessage(2);
                 foundLighterChoices();
                 break;
         }
@@ -105,7 +105,7 @@ public class Jungle extends BaseLocation {
         } else { // If the random generated number is not < 3 (25% chance), the game is lost
             System.out.println("\nAs you are marching through the foliage, you notice your skin starts to flare up " +
                     "after touching the leaf. \nYou feel your throat swelling and you start suffocating.\n");
-            gameController.gameOver();
+            player.loseHealth(player.getHealth()); // Player loses his current health
         }
     }
 
@@ -128,7 +128,7 @@ public class Jungle extends BaseLocation {
                 hillChoices();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1 or 2.");
+                gameController.printInvalidChoiceMessage(2);
                 continueJungleChoices();
                 break;
         }
@@ -160,7 +160,7 @@ public class Jungle extends BaseLocation {
                 gameController.returnToStart();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1 or 2.");
+                gameController.printInvalidChoiceMessage(2);
                 drinkFromStreamChoices();
                 break;
         }
@@ -185,7 +185,7 @@ public class Jungle extends BaseLocation {
                 fishingHatEvent();
                 break;
                 default:
-                    System.out.println("Invalid choice. Please select 1 or 2.");
+                    gameController.printInvalidChoiceMessage(2);
                     tarantulaChoices();
                     break;
         }
@@ -210,45 +210,53 @@ private void fishingHatEvent() {
                 System.out.println("As you continue to walk along the hill you daydream about the fruit tree that " +
                         "you chose to ignore earlier. \nIt is almost completely dark now and you can barely stand on " +
                         "your feet from sheer exhaustion.");
-                boolean validInput = false;
-
-                while (!validInput) {
-                    System.out.println("1: Rest");
-
-                    int restChoice = scanner.nextInt();
-
-                    if (restChoice == 1) {
-                        System.out.println("As you sit down by one of the many trees, you feel relaxed and close your " +
-                                "eyes.\nThe darkness and cold surrounds you.");
-                        gameController.gameOver();
-                        validInput = true;
-                    } else {
-                        System.out.println("Invalid choice.");
-                    }
-                }
+                handleRestChoice();
                 break;
             case 2:
                 System.out.println("Fatigued, you make it to the top of the hill. It is almost completely dark now.\n" +
                         "As you scout the area, you notice a small village of indigenous people with lit torches by " +
                         "the bottom of the hill.");
-                System.out.println("1: Turn around and go back");
-                System.out.println("2: Walk closer to the village");
-
-                int topOfHillChoice = scanner.nextInt();
-
-                if (topOfHillChoice == 1) {
-                    System.out.println("As you turn around and descend from the hill, your body gives up...");
-                    gameController.gameOver();
-                } else if (topOfHillChoice == 2) {
-                    inventoryDependentEvent();
-                } else {
-                    System.out.println("Invalid choice. Please select 1 or 2.");
-                }
+                handleTopOfHillChoice();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1 or 2.");
+                gameController.printInvalidChoiceMessage(2);
                 hillChoices();
                 break;
+        }
+    }
+
+    private void handleTopOfHillChoice() {
+        System.out.println("1: Turn around and go back");
+        System.out.println("2: Walk closer to the village");
+
+        int choice = scanner.nextInt();
+
+        if (choice == 1) {
+            System.out.println("As you turn around and descend from the hill, your body gives up...\"");
+            player.loseHealth(player.getHealth()); // Player loses his current health
+        } else if (choice == 2) {
+            inventoryDependentEvent();
+        } else {
+            gameController.printInvalidChoiceMessage(2);
+        }
+    }
+
+    private void handleRestChoice() {
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.println("1: Rest");
+
+            int restChoice = scanner.nextInt();
+
+            if (restChoice == 1) {
+                System.out.println("As you sit down by one of the many trees, you feel relaxed and close your " +
+                        "eyes.\nThe darkness and cold surrounds you.");
+                player.loseHealth(player.getHealth()); // Player loses his current health
+                validInput = true;
+            } else {
+                gameController.printInvalidChoiceMessage(1);
+            }
         }
     }
 
@@ -273,6 +281,7 @@ private void fishingHatEvent() {
             lookoutPostEvent();
         }
     }
+
     public void lookoutPostEvent() {
         int choice = scanner.nextInt();
 
@@ -281,7 +290,7 @@ private void fishingHatEvent() {
                 int chance = random.nextInt(5);
 
                 if (chance == 0) { // 20% chance
-                    System.out.println("The ladder breaks halfway up and you fall onto your back on the sand.");
+                    System.out.println("The ladder breaks halfway up and you fall onto your back on the sand. Ouch!");
                     player.loseHealth(1);
                     System.out.println("\n...\n Disoriented, you blink a few times and get up. Better not try that again." +
                             "\nYou look around. This part of the beach seems familiar...\n" +
@@ -300,7 +309,7 @@ private void fishingHatEvent() {
                     gameController.returnToStart();
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1 or 2.");
+                gameController.printInvalidChoiceMessage(2);
                 lookoutPostEvent();
                 break;
         }

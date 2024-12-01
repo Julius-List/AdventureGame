@@ -5,13 +5,17 @@ public class GameController {
     private boolean isFirstGame = true;  // Flag to track the first time the game starts
     private final Scanner scanner = new Scanner(System.in);
     private final Player player; // Instance af Player
+    // Constants for the name of each unique location
+    private static final String BEACH_NAME = "beach";
+    private static final String SEA_NAME = "sea";
+    private static final String JUNGLE_NAME = "jungle";
 
     // Constructor
     public GameController() {
         this.player = new Player (this); // Passing GameController to Player to add game over logic.
     }
 
-    // First run message
+    // Show start message and start choices when the game is initialized
     public void start() {
         if (isFirstGame) {
             System.out.println("You wake up on the beach of a deserted island. You feel disoriented but determined to survive.");
@@ -21,7 +25,6 @@ public class GameController {
         showStartChoices();
     }
 
-    // Show options from the starting point
     private void showStartChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Stay on the beach");
@@ -30,31 +33,43 @@ public class GameController {
 
         int choice = scanner.nextInt();
 
+        // Creates a new location instance with its name, gameController and player
         switch (choice) {
             case 1:
-                setLocation(new Beach(this, player));  // Pass player og GameController to Beach
+                moveToLocation(new Beach(BEACH_NAME,this, player));
                 break;
             case 2:
-                setLocation(new Sea(this, player));    // Pass player og GameController to Sea
+                moveToLocation(new Sea(SEA_NAME,this, player));
                 break;
             case 3:
-                setLocation(new Jungle(this, player)); // Pass player og GameController to Jungle
+                moveToLocation(new Jungle(JUNGLE_NAME,this, player));
                 break;
             default:
-                System.out.println("Invalid choice. Please select 1, 2, or 3.");
+                this.printInvalidChoiceMessage(3);
                 showStartChoices();
                 break;
         }
     }
 
+    // Method to prompt the player with a message to choose a valid choice option
+    public void printInvalidChoiceMessage(int maxOptions) {
+        if (maxOptions == 1) {
+            System.out.println("Invalid choice. Please select the only available option: 1.");
+        } else {
+
+            System.out.println("Invalid choice. Please select a number between 1 and " + maxOptions + ".");
+        }
+    }
+
     // Method to update and move the player to a new location
-    private void setLocation(BaseLocation location) {
+    private void moveToLocation(BaseLocation location) {
         this.currentLocation = location;
         currentLocation.enter();  // Enter the new location
     }
 
+    // Method to return the player to start
     public void returnToStart() {
-        showStartChoices();  // Only prompt the choices, no starting message
+        showStartChoices();  // Shows the start choices if the player returns to start
     }
 
     // Method to end the game if the player dies
@@ -70,4 +85,3 @@ public class GameController {
         System.exit(0); // Terminates the process
     }
 }
-
