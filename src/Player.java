@@ -1,10 +1,12 @@
 public class Player {
     private int health;
     private final GameController gameController; // Calling GameController so we can manage game over logic
+    private final Inventory inventory;
 
     public Player(GameController gameController) {
         this.health = 3;  // Spiller starter med 3 health points
         this.gameController = gameController;
+        this.inventory = new Inventory(); // Initializes an empty inventory
     }
 
     // Getter for liv
@@ -34,6 +36,9 @@ public class Player {
             this.health = 5;  // Man kan maks få 5 liv
         }
         System.out.println("\u001B[34mYou gained " + amount + " health. Current health: " + this.health + "\u001B[0m");
+    }
+    public Inventory getInventory() {
+        return inventory;
     }
 }
 

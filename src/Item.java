@@ -1,31 +1,29 @@
-import java.util.ArrayList;
-import java.util.List;
-
+// Class to manage predefined items
 public class Item {
-    private final List<String> inventory;  /* List to store collected items. 'Final' keyword to ensure only 1
-                                            inventory can exist at all times */
+    private final String name;
 
-    public Item() {
-        inventory = new ArrayList<>();  // Initialize as ArrayList
+    // Instantiates items as objects
+    public static final Item LIGHTER = new Item("Lighter");
+    public static final Item FISHING_HAT = new Item("Fishing Hat");
+    public static final Item PRETTY_ROCK = new Item("Pretty Rock");
+    public static final Item PRETTY_LEAF = new Item("Pretty Leaf");
+    public static final Item STRANGE_MAP = new Item("Strange Map");
+    public static final Item NECKLACE = new Item("Necklace");
+    public static final Item Wood_and_Palm_Leaves = new Item("Wood and Palm Leaves");
+
+    // Accepts a name and assigns it to the name field of an item
+    public Item (String name) {
+    this.name = name;
     }
 
-    // Method to add an item to the inventory
-    public void addItem(String item) {
-        if (!inventory.contains(item)) {  // Avoid duplicates
-            inventory.add(item);
-            System.out.println("\u001B[34m" + item + " has been added to your inventory.\u001B[0m");
-        } else {
-            System.out.println("\u001B[34mYou already have " + item + " in your inventory.\u001B[0m");
-        }
+    // Getter to access the item's name
+    public String getName() {
+        return name;
     }
 
-    // Method to check if the inventory contains a specific item
-    public boolean containsItem(String item) {
-        return inventory.contains(item);
-    }
-
-    // Method to display the inventory
-    public void showInventory() {
-        System.out.println("\u001B[34mYour inventory contains: " + inventory + "\u001B[0m");
+    // Overrides the called item so it displays correctly in prologue
+    @Override
+    public String toString() {
+        return name;
     }
 }

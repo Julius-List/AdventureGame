@@ -2,8 +2,8 @@ public class Beach extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
     private final Player player; // Reference til Player så vi kan håndtere health.
 
-    public Beach(Item playerItems, GameController gameController, Player player) {
-        super("Beach", playerItems);
+    public Beach(GameController gameController, Player player) {
+        super("Beach");
         this.gameController = gameController;
         this.player = player;
     }
@@ -32,8 +32,8 @@ public class Beach extends BaseLocation {
             case 2:
                 System.out.println("You start exploring the beach, and find a necklace wedged between some drywood. " +
                         "You put the necklace in your pocket and start gathering the wood and find palm leaves.");
-                playerItems.addItem("Necklace");
-                playerItems.addItem("Wood and palm leaves");
+                player.getInventory().addItem(Item.NECKLACE);
+                player.getInventory().addItem(Item.Wood_and_Palm_Leaves);
                 // Call på makeACamp method som indeholder if Lighter = create fire & camp, else create camp + random med create fire from palm leaves & stick.
                 break;
             case 3:

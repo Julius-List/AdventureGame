@@ -1,9 +1,9 @@
 public class Jungle extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
-    private final Player player; // Reference til Player så vi kan håndtere health.
+    private final Player player; // Reference til Player så vi kan håndtere health og inventory.
 
-    public Jungle(Item playerItems, GameController gameController, Player player) {
-        super("Jungle", playerItems);
+    public Jungle(GameController gameController, Player player) {
+        super("Jungle");
         this.gameController = gameController;
         this.player = player;
     }
@@ -26,7 +26,7 @@ public class Jungle extends BaseLocation {
         switch (choice) {
             case 1:
                 System.out.println("You fall over a branch and tumble down a mudslide.\nYou find a lighter. How convenient!");
-                playerItems.addItem("Lighter");
+                player.getInventory().addItem(Item.LIGHTER);
                 foundLighterChoices();
                 break;
             case 2:
@@ -93,7 +93,7 @@ public class Jungle extends BaseLocation {
 
     public void afterFruitTree() {
         System.out.println("\nYou continue walking and stumble upon a leaf. A pretty leaf... You put it in your pocket.");
-        playerItems.addItem("Pretty leaf");
+        player.getInventory().addItem(Item.PRETTY_LEAF);
 
         int chance = random.nextInt(4); // Generates a random integer between 1-4
 
@@ -193,7 +193,7 @@ public class Jungle extends BaseLocation {
 private void fishingHatEvent() {
     System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
             "Neat! You put it in your pocket.");
-    playerItems.addItem("Fishing hat");
+    player.getInventory().addItem(Item.FISHING_HAT);
     System.out.println("\nYou decide to continue foraging, but the jungle is too dense to walk through. " +
             "It is time to walk back to the beach...");
     gameController.returnToStart();
@@ -253,7 +253,7 @@ private void fishingHatEvent() {
     }
 
     private void inventoryDependentEvent() {
-        if (playerItems.containsItem("Pretty rock")) {
+        if (player.getInventory().containsItem(Item.PRETTY_ROCK.getName())) {
             System.out.println("On your last legs, you make it to the village and approach the villagers. " +
                     "You take the pretty rock that you found in the sea out of your pocket and present it to the " +
                     "villagers.\nThe villagers greet you with food and water and helps you return home.");
@@ -290,7 +290,7 @@ private void fishingHatEvent() {
                 } else { // 80% chance
                     System.out.println("You climb the ladder and make it all the way to the top of the outpost. You find " +
                             "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
-                    playerItems.addItem("Strange map");
+                    player.getInventory().addItem(Item.STRANGE_MAP);
                     System.out.println("You carefully crawl down again and start your search for the marked location.");
                     // Husk!! Method call for a Beach location ======================================================================================
                 }

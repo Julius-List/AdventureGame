@@ -2,8 +2,8 @@ public class Sea extends BaseLocation {
     private GameController gameController; // Reference til gameController så vi kan kalde dens metoder
     private final Player player; // Reference til Player så vi kan håndtere health.
 
-    public Sea(Item playerItems, GameController gameController, Player player) {
-        super("Sea", playerItems);
+    public Sea(GameController gameController, Player player) {
+        super("Sea");
         this.gameController = gameController;
         this.player = player;
     }
@@ -36,7 +36,7 @@ public class Sea extends BaseLocation {
                 } else if (chance == 1 || chance == 2) { // 50% chance
                     System.out.println("You find a fishing spot, but you have nothing to catch the fish with. " +
                             "\nYou found a rock. A pretty rock. You put it in your pocket.");
-                    playerItems.addItem("Pretty rock");
+                    player.getInventory().addItem(Item.PRETTY_ROCK);
                     System.out.println("\nThere is nothing else for you to do in the water. You swim back to the beach.");
                     gameController.returnToStart();
                 } else { // 25% chance
