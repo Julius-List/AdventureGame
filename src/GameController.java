@@ -2,17 +2,27 @@ import java.util.Scanner;
 
 public class GameController {
     private BaseLocation currentLocation;
-    private boolean isFirstGame = true;  // Flag to track the first time the game starts
-    private final Scanner scanner = new Scanner(System.in);
-    private final Player player; // Instance af Player
-    // Constants for the name of each unique location
+    private boolean isFirstGame = true;  // Boolean flag to track the first time the game starts
+    private final Scanner scanner = new Scanner(System.in); // Takes input from the players keyboard
+    private final Player player; // Player instance to manage health and inventory
+
+    // Constants for each location name (used to initialize and identify locations)
     private static final String BEACH_NAME = "beach";
     private static final String SEA_NAME = "sea";
     private static final String JUNGLE_NAME = "jungle";
 
-    // Constructor
+    // Predefined instances of each location
+    private final BaseLocation beach;
+    private final BaseLocation sea;
+    private final BaseLocation jungle;
+
+    // Constructor to initialize the game components
     public GameController() {
-        this.player = new Player (this); // Passing GameController to Player to add game over logic.
+        this.player = new Player (this); // Passes GameController to Player
+        this.beach = new Beach(BEACH_NAME, this, player);
+        this.sea = new Sea(SEA_NAME, this, player);
+        this.jungle = new Jungle(JUNGLE_NAME, this, player);
+        this.currentLocation = beach; // Start the game at the beach
     }
 
     // Show start message and start choices when the game is initialized
@@ -21,7 +31,6 @@ public class GameController {
             System.out.println("You wake up on the beach of a deserted island. You feel disoriented but determined to survive.");
             isFirstGame = false;
         }
-
         showStartChoices();
     }
 
@@ -36,13 +45,13 @@ public class GameController {
         // Creates a new location instance with its name, gameController and player
         switch (choice) {
             case 1:
-                moveToLocation(new Beach(BEACH_NAME,this, player));
+                moveToLocation(beach);
                 break;
             case 2:
-                moveToLocation(new Sea(SEA_NAME,this, player));
+                moveToLocation(sea);
                 break;
             case 3:
-                moveToLocation(new Jungle(JUNGLE_NAME,this, player));
+                moveToLocation(jungle);
                 break;
             default:
                 this.printInvalidChoiceMessage(3);
@@ -51,25 +60,24 @@ public class GameController {
         }
     }
 
-    // Method to prompt the player with a message to choose a valid choice option
-    public void printInvalidChoiceMessage(int maxOptions) {
-        if (maxOptions == 1) {
-            System.out.println("Invalid choice. Please select the only available option: 1.");
-        } else {
-
-            System.out.println("Invalid choice. Please select a number between 1 and " + maxOptions + ".");
-        }
-    }
-
-    // Method to update and move the player to a new location
+    // Method to move the player to a new location
     private void moveToLocation(BaseLocation location) {
         this.currentLocation = location;
         currentLocation.enter();  // Enter the new location
     }
 
-    // Method to return the player to start
+    // Method to return the player to the starting location
     public void returnToStart() {
-        showStartChoices();  // Shows the start choices if the player returns to start
+        moveToLocation(beach);
+    }
+
+    // Method to print a message if the player chooses an invalid choice
+    public void printInvalidChoiceMessage(int maxOptions) {
+        if (maxOptions == 1) {
+            System.out.println("Invalid choice. Please select the only available option: 1.");
+        } else {
+            System.out.println("Invalid choice. Please select a number between 1 and " + maxOptions + ".");
+        }
     }
 
     // Method to end the game if the player dies

@@ -4,8 +4,9 @@ public class Player {
     private final GameController gameController; // Calls GameController so we can manage game over logic
     private final Inventory inventory;
 
+    // Constructor to initialize health and manage game logic from GameController
     public Player(GameController gameController) {
-        this.health = 3;  // Spiller starter med 3 health points
+        this.health = 3;  // The player starts with 3 health points
         this.gameController = gameController;
         this.inventory = new Inventory(); // Initializes an empty inventory
     }
