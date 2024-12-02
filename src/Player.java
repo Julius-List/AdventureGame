@@ -1,6 +1,7 @@
 public class Player {
     private int health;
-    private final GameController gameController; // Calling GameController so we can manage game over logic
+    private static final int MAX_HEALTH = 5; // Constant for the maximum health value
+    private final GameController gameController; // Calls GameController so we can manage game over logic
     private final Inventory inventory;
 
     public Player(GameController gameController) {
@@ -9,34 +10,39 @@ public class Player {
         this.inventory = new Inventory(); // Initializes an empty inventory
     }
 
-    // Getter for liv
+    // Getter for health
     public int getHealth() {
         return health;
     }
 
-    // Setter for liv
+    // Setter for health - prevents health from being negative or exceeding the maximum
     public void setHealth(int health) {
-        this.health = health;
+        if (health < 0) {
+            this.health = 0;
+        } else if (health > MAX_HEALTH) {
+            this.health = MAX_HEALTH;
+        } else {
+            this.health = health;
+        }
     }
 
-    // Spilleren mister liv eller dør
+    // Method to lose health
     public void loseHealth(int amount) {
-        this.health -= amount;
+        setHealth(getHealth() - amount);
         if (this.health <= 0) {
-            gameController.gameOver(); // Calls game over method from GameController
+            gameController.gameOver(); // Calls game over method from GameController if health reaches 0
         } else {
             System.out.println("\u001B[34mYou lost " + amount + " health. Current health: " + this.health + "\u001B[0m");
         }
     }
 
-    // Spilleren får liv (max 5)
+    // Method to gain health
     public void gainHealth(int amount) {
-        this.health += amount;
-        if (this.health > 5) {
-            this.health = 5;  // Man kan maks få 5 liv
-        }
+        setHealth(getHealth() + amount);
         System.out.println("\u001B[34mYou gained " + amount + " health. Current health: " + this.health + "\u001B[0m");
     }
+
+    // Getter for inventory
     public Inventory getInventory() {
         return inventory;
     }
