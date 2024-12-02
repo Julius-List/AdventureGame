@@ -31,31 +31,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You decide to take the path to your right.\nYou notice that one of the trees you walk past is bearing fruits.");
-                System.out.println("What would you like to do?");
-                System.out.println("1: Try to grab the fruit");
-                System.out.println("2: Continue through the jungle");
-
-                int fruitChoice = scanner.nextInt();
-
-                if (fruitChoice == 1) {
-                    int chance = random.nextInt(4);
-                    if (chance == 0) {
-                        System.out.println("As you try to grab a fruit, a snake lunges out from the tree and bites your hand!");
-                        player.loseHealth(1);
-                        System.out.println("Your hand hurts, but you got to keep on moving.");
-                        afterFruitTree();
-                    } else {
-                        System.out.println("You try to grab one of the fruits. As you take a bite, you feel nourished.");
-                        player.gainHealth(1);
-                        afterFruitTree();
-                    }
-                } else if (fruitChoice == 2) {
-                    System.out.println("You decide to ignore the fruit tree and continue through the jungle.");
-                    continueJungleChoices();
-                } else {
-                    gameController.printInvalidChoiceMessage(2);
-                    handleChoices();
-                }
+                handleFruitChoices();
                 break;
             case 3:
                 System.out.println("You can't shake the feeling that something is wrong. You decide to go back to the beach.");
@@ -65,6 +41,34 @@ public class Jungle extends BaseLocation {
                 gameController.printInvalidChoiceMessage(3);
                 handleChoices();
                 break;
+        }
+    }
+
+    private void handleFruitChoices() {
+        System.out.println("What would you like to do?");
+        System.out.println("1: Try to grab the fruit");
+        System.out.println("2: Continue through the jungle");
+
+        int fruitChoice = scanner.nextInt();
+
+        if (fruitChoice == 1) {
+            int chance = random.nextInt(4);
+            if (chance == 0) {
+                System.out.println("As you try to grab a fruit, a snake lunges out from the tree and bites your hand!");
+                player.loseHealth(1);
+                System.out.println("Your hand hurts, but you got to keep on moving.");
+                handleAfterFruitTree();
+            } else {
+                System.out.println("You try to grab one of the fruits. As you take a bite, you feel nourished.");
+                player.gainHealth(1);
+                handleAfterFruitTree();
+            }
+        } else if (fruitChoice == 2) {
+            System.out.println("You decide to ignore the fruit tree and continue through the jungle.");
+            continueJungleChoices();
+        } else {
+            gameController.printInvalidChoiceMessage(2);
+            handleChoices();
         }
     }
 
@@ -91,7 +95,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    public void afterFruitTree() {
+    public void handleAfterFruitTree() {
         System.out.println("\nYou continue walking and stumble upon a leaf. A pretty leaf... You put it in your pocket.");
         player.getInventory().addItem(Item.PRETTY_LEAF);
 
@@ -135,16 +139,7 @@ public class Jungle extends BaseLocation {
     }
 
     private void drinkFromStreamChoices() {
-        int chance = random.nextInt(4);
-
-        if (chance == 0) {
-            System.out.println("You bow down and drink from the stream, but the taste of the water is foul.");
-            player.loseHealth(1);
-        } else {
-            System.out.println("You bow down and drink from the stream. You feel nourished.");
-            player.gainHealth(1);
-        }
-
+        handleDrinkFromStreamOutcomes();
         System.out.println("What would you like to do next?");
         System.out.println("1: Continue through the jungle");
         System.out.println("2. Walk back to the beach");
@@ -163,6 +158,18 @@ public class Jungle extends BaseLocation {
                 gameController.printInvalidChoiceMessage(2);
                 drinkFromStreamChoices();
                 break;
+        }
+    }
+
+    private void handleDrinkFromStreamOutcomes() {
+        int chance = random.nextInt(4);
+
+        if (chance == 0) {
+            System.out.println("You bow down and drink from the stream, but the taste of the water is foul.");
+            player.loseHealth(1);
+        } else {
+            System.out.println("You bow down and drink from the stream. You feel nourished.");
+            player.gainHealth(1);
         }
     }
 
@@ -190,13 +197,13 @@ public class Jungle extends BaseLocation {
                     break;
         }
     }
-private void fishingHatEvent() {
-    System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
+    private void fishingHatEvent() {
+        System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
             "Neat! You put it in your pocket.");
-    player.getInventory().addItem(Item.FISHING_HAT);
-    System.out.println("\nYou decide to continue foraging, but the jungle is too dense to walk through. " +
+        player.getInventory().addItem(Item.FISHING_HAT);
+        System.out.println("\nYou decide to continue foraging, but the jungle is too dense to walk through. " +
             "It is time to walk back to the beach...");
-    gameController.returnToStart();
+        gameController.returnToStart();
 }
 
     private void hillChoices() {
@@ -210,13 +217,13 @@ private void fishingHatEvent() {
                 System.out.println("As you continue to walk along the hill you daydream about the fruit tree that " +
                         "you chose to ignore earlier. \nIt is almost completely dark now and you can barely stand on " +
                         "your feet from sheer exhaustion.");
-                handleRestChoice();
+                handleRestChoices();
                 break;
             case 2:
                 System.out.println("Fatigued, you make it to the top of the hill. It is almost completely dark now.\n" +
                         "As you scout the area, you notice a small village of indigenous people with lit torches by " +
                         "the bottom of the hill.");
-                handleTopOfHillChoice();
+                handleTopOfHillChoices();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
@@ -225,7 +232,7 @@ private void fishingHatEvent() {
         }
     }
 
-    private void handleTopOfHillChoice() {
+    private void handleTopOfHillChoices() {
         System.out.println("1: Turn around and go back");
         System.out.println("2: Walk closer to the village");
 
@@ -241,7 +248,7 @@ private void fishingHatEvent() {
         }
     }
 
-    private void handleRestChoice() {
+    private void handleRestChoices() {
         boolean validInput = false;
 
         while (!validInput) {
@@ -287,31 +294,36 @@ private void fishingHatEvent() {
 
         switch (choice) {
             case 1:
-                int chance = random.nextInt(5);
-
-                if (chance == 0) { // 20% chance
-                    System.out.println("The ladder breaks halfway up and you fall onto your back on the sand. Ouch!");
-                    player.loseHealth(1);
-                    System.out.println("\n...\n Disoriented, you blink a few times and get up. Better not try that again." +
-                            "\nYou look around. This part of the beach seems familiar...\n" +
-                            "You are back at where you woke up!");
-                    gameController.returnToStart();
-                } else { // 80% chance
-                    System.out.println("You climb the ladder and make it all the way to the top of the outpost. You find " +
-                            "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
-                    player.getInventory().addItem(Item.STRANGE_MAP);
-                    System.out.println("You carefully crawl down again and start your search for the marked location.");
-                    // Husk!! Method call for a Beach location ======================================================================================
-                }
+                System.out.println("You attempt to climb the ladder.\n...");
+                handleLadderClimb();
                 break;
-                case 2:
-                    System.out.println("You continue walking on the beach and end up where you woke up.");
-                    gameController.returnToStart();
+            case 2:
+                System.out.println("You continue walking on the beach and end up where you woke up.");
+                gameController.returnToStart();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
                 lookoutPostEvent();
                 break;
+        }
+    }
+
+    public void handleLadderClimb() {
+        int chance = random.nextInt(5);
+
+        if (chance == 0) { // 20% chance
+            System.out.println("The ladder breaks halfway up and you fall onto your back on the sand. Ouch!");
+            player.loseHealth(1);
+            System.out.println("\n Disoriented, you blink a few times and get up. Better not try that again." +
+                    "\nYou look around. This part of the beach seems familiar...\n" +
+                    "You are back at where you woke up!");
+            gameController.returnToStart();
+        } else { // 80% chance
+            System.out.println("You make it all the way to the top of the outpost. You find " +
+                    "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
+            player.getInventory().addItem(Item.STRANGE_MAP);
+            System.out.println("You carefully crawl down again and start your search for the marked location.");
+            // Husk!! Method call for a Beach location ======================================================================================
         }
     }
 }

@@ -47,4 +47,3 @@ public class Beach extends BaseLocation {
         }
     }
 }
-
