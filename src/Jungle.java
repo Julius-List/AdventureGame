@@ -1,6 +1,6 @@
 public class Jungle extends BaseLocation {
-    private final GameController gameController; // Reference til gameController så vi kan kalde dens metoder
-    private final Player player; // Reference til Player så vi kan håndtere health og inventory.
+    private final GameController gameController; // Reference to gameController so we can call its methods
+    private final Player player; // Reference til Player so we can manage health and inventory
 
     public Jungle(String locationName, GameController gameController, Player player) {
         super(locationName);
@@ -35,7 +35,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 3:
                 System.out.println("You can't shake the feeling that something is wrong. You decide to go back to the beach.");
-                gameController.returnToStart();
+                gameController.showStartChoices();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(3);
@@ -82,7 +82,7 @@ public class Jungle extends BaseLocation {
         switch (choice) {
             case 1:
                 System.out.println("You decide to head back to the beach. Now with a lighter.");
-                gameController.returnToStart();
+                gameController.showStartChoices();
                 break;
             case 2:
                 System.out.println("You continue deeper into the jungle, ready for the unknown.");
@@ -152,7 +152,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You decide to head back to the beach.");
-                gameController.returnToStart();
+                gameController.showStartChoices();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
@@ -203,7 +203,7 @@ public class Jungle extends BaseLocation {
         player.getInventory().addItem(Item.FISHING_HAT);
         System.out.println("\nYou decide to continue foraging, but the jungle is too dense to walk through. " +
             "It is time to walk back to the beach...");
-        gameController.returnToStart();
+        gameController.showStartChoices();
 }
 
     private void hillChoices() {

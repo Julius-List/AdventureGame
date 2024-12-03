@@ -71,12 +71,6 @@ public class GameController {
         return beach;
     }
 
-
-    // Method to return the player to the starting location
-    public void returnToStart() {
-        moveToLocation(beach);
-    }
-
     // Method to print a message if the player chooses an invalid choice
     public void printInvalidChoiceMessage(int maxOptions) {
         if (maxOptions == 1) {
