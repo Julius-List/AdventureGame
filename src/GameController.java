@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class GameController {
     private BaseLocation currentLocation;
     private boolean isFirstGame = true;  // Boolean flag to track the first time the game starts
-    private final Scanner scanner = new Scanner(System.in); // Takes input from the players keyboard
+    private final Scanner scanner = new Scanner(System.in); // Scans input from the players keyboard
 
     // Constants for each location name (used to initialize and identify locations)
     private static final String BEACH_NAME = "beach";
@@ -17,12 +17,12 @@ public class GameController {
 
     // Constructor to initialize the game components
     public GameController() {
-        // Player instance to manage health and inventory
+        // Player instance to manage player attributes (health and inventory)
         Player player = new Player(this); // Passes GameController to Player
+        // Initializes the locations, passing their name, game controller and the player
         this.beach = new Beach(BEACH_NAME, this, player);
         this.sea = new Sea(SEA_NAME, this, player);
         this.jungle = new Jungle(JUNGLE_NAME, this, player);
-        this.currentLocation = beach; // Start the game at the beach
     }
 
     // Show start message and start choices when the game is initialized
