@@ -323,6 +323,7 @@ public class Jungle extends BaseLocation {
                     "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
             player.getInventory().addItem(Item.STRANGE_MAP);
             System.out.println("You carefully crawl down again and start your search for the marked location.");
+            System.out.println("");
             // Husk!! Method call for a Beach location ======================================================================================
         }
     }

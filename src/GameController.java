@@ -4,7 +4,6 @@ public class GameController {
     private BaseLocation currentLocation;
     private boolean isFirstGame = true;  // Boolean flag to track the first time the game starts
     private final Scanner scanner = new Scanner(System.in); // Takes input from the players keyboard
-    private final Player player; // Player instance to manage health and inventory
 
     // Constants for each location name (used to initialize and identify locations)
     private static final String BEACH_NAME = "beach";
@@ -18,7 +17,8 @@ public class GameController {
 
     // Constructor to initialize the game components
     public GameController() {
-        this.player = new Player (this); // Passes GameController to Player
+        // Player instance to manage health and inventory
+        Player player = new Player(this); // Passes GameController to Player
         this.beach = new Beach(BEACH_NAME, this, player);
         this.sea = new Sea(SEA_NAME, this, player);
         this.jungle = new Jungle(JUNGLE_NAME, this, player);
