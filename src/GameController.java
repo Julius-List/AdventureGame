@@ -34,7 +34,7 @@ public class GameController {
         showStartChoices();
     }
 
-    private void showStartChoices() {
+    public void showStartChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Stay on the beach");
         System.out.println("2: Walk to the sea");
@@ -42,7 +42,7 @@ public class GameController {
 
         int choice = scanner.nextInt();
 
-        // Creates a new location instance with its name, gameController and player
+        // Creates a new location instance
         switch (choice) {
             case 1:
                 moveToLocation(beach);
@@ -61,10 +61,16 @@ public class GameController {
     }
 
     // Method to move the player to a new location
-    private void moveToLocation(BaseLocation location) {
+    public void moveToLocation(BaseLocation location) {
         this.currentLocation = location;
         currentLocation.enter();  // Enter the new location
     }
+
+    // Getter for beach
+    public BaseLocation getBeachLocation() {
+        return beach;
+    }
+
 
     // Method to return the player to the starting location
     public void returnToStart() {

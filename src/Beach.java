@@ -61,6 +61,8 @@ public class Beach extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You decide to keep on going.");
+                System.out.println("As you continue walking, you find and old camp. \nClearly, someone has been " +
+                                "staying here shortly before you arrived.");
                 campChoices();
                 break;
             default:
@@ -71,8 +73,6 @@ public class Beach extends BaseLocation {
     }
 
     public void campChoices() {
-        System.out.println("As you continue walking, you find and old camp. \nClearly, someone has been staying here shortly" +
-                " before you arrived.");
         System.out.println("Do you stay away from the camp or do you search it?");
         System.out.println("1: Stay away from the camp");
         System.out.println("2: Search the camp");
@@ -81,7 +81,7 @@ public class Beach extends BaseLocation {
 
         switch (choice) {
             case 1:
-                System.out.println("You decide to stay away from the camp and walk back to where you came from.");
+                System.out.println("You decide to stay away from the camp and walk back to where you woke up.");
                 handleChoices();
                 break;
             case 2:
@@ -89,7 +89,7 @@ public class Beach extends BaseLocation {
                 "warm place to take cover from the cold night.\nYou also find a journal which clearly belonged" +
                         "to a person living in the camp.\nYou fall asleep and feel refreshed when you wake up");
                 player.gainHealth(3);
-                System.out.println("You grab what you can carry of essentials and walk back to where you came from.");
+                System.out.println("You grab what you can carry of essentials and walk back to where you came from on the beach.");
                 player.getInventory().addItem(Item.STOLEN_JOURNAL);
                 handleChoices();
                 break;
@@ -131,6 +131,8 @@ public class Beach extends BaseLocation {
                     "through the night, but manage to get through with some palm leaves as cover. ");
             System.out.println("You continue exploring the beach and find a broken but functional fishing rod!");
             player.getInventory().addItem(Item.FISHING_ROD);
+            System.out.println("As you continue walking, you find and old camp. \nClearly, someone has been " +
+                    "staying here shortly before you arrived.");
             campChoices();
             player.loseHealth(1);
         }
@@ -149,6 +151,8 @@ public class Beach extends BaseLocation {
             gameController.gameWon();
         } else {
             System.out.println("Despite the glowing fire, no help came during the night.");
+            System.out.println("You die of cold and loneliness.");
+            player.loseHealth(player.getHealth());
         }
 
     }

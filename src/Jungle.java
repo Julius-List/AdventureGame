@@ -299,7 +299,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You continue walking on the beach and end up where you woke up.");
-                gameController.returnToStart();
+                gameController.showStartChoices();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
@@ -314,17 +314,17 @@ public class Jungle extends BaseLocation {
         if (chance == 0) { // 20% chance
             System.out.println("The ladder breaks halfway up and you fall onto your back on the sand. Ouch!");
             player.loseHealth(1);
-            System.out.println("\n Disoriented, you blink a few times and get up. Better not try that again." +
+            System.out.println("\nDisoriented, you blink a few times and get up. Better not try that again." +
                     "\nYou look around. This part of the beach seems familiar...\n" +
                     "You are back at where you woke up!");
-            gameController.returnToStart();
+            gameController.showStartChoices();
         } else { // 80% chance
             System.out.println("You make it all the way to the top of the outpost. You find " +
                     "a map lying on the wooden floor with a marked spot.\n" + "You put it in your pocket.");
             player.getInventory().addItem(Item.STRANGE_MAP);
             System.out.println("You carefully crawl down again and start your search for the marked location.");
-            System.out.println("");
-            // Husk!! Method call for a Beach location ======================================================================================
+            System.out.println("You walk for a while on the vast beach. You spot what looks like a camp. This is the marked spot!");
+            ((Beach) gameController.getBeachLocation()).campChoices(); // Casting to Beach object to enter campChoices()
         }
     }
 }
