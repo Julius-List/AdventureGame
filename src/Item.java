@@ -1,4 +1,4 @@
-// Class to manage predefined items
+// Immutable class to manage predefined items
 public class Item {
     private final String name;
 
@@ -13,7 +13,7 @@ public class Item {
     public static final Item WOOD_AND_PALM_LEAVES = new Item("Wood and Palm Leaves");
     public static final Item STOLEN_JOURNAL = new Item("Stolen Journal");
 
-    // Accepts a name and assigns it to the name field of an item
+    // Constructor - Accepts a name and assigns it to the name field of an item
     public Item (String name) {
     this.name = name;
     }

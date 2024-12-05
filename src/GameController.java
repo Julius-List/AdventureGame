@@ -10,7 +10,7 @@ public class GameController {
     private static final String SEA_NAME = "sea";
     private static final String JUNGLE_NAME = "jungle";
 
-    // Predefined instances of each location
+    // Declares variables for each location so they can be instantiated
     private final BaseLocation beach;
     private final BaseLocation sea;
     private final BaseLocation jungle;
@@ -18,8 +18,9 @@ public class GameController {
     // Constructor to initialize the game components
     public GameController() {
         // Player instance to manage player attributes (health and inventory)
-        Player player = new Player(this); // Passes GameController to Player
-        // Initializes the locations, passing their name, game controller and the player
+        Player player = new Player(this);
+
+        // Initializes the locations, passing their name, game controller and the player to each
         this.beach = new Beach(BEACH_NAME, this, player);
         this.sea = new Sea(SEA_NAME, this, player);
         this.jungle = new Jungle(JUNGLE_NAME, this, player);

@@ -1,11 +1,8 @@
 public class Beach extends BaseLocation {
-    private final GameController gameController; // Reference to gameController so we can call its methods
-    private final Player player; // Reference til Player so we can manage health and inventory
 
+    // Constructor
     public Beach(String locationName, GameController gameController, Player player) {
-        super(locationName);
-        this.gameController = gameController;
-        this.player = player;
+        super(locationName, gameController, player); // Invokes BaseLocations constructor
     }
 
     // Overrides so a unique entry message can be shown
