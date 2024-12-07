@@ -1,3 +1,4 @@
+/*
 public class Sea extends BaseLocation {
 
     // Constructor
@@ -56,4 +57,4 @@ public class Sea extends BaseLocation {
             player.loseHealth(player.getHealth()); // Player loses his current health
         }
     }
-}
+}*/

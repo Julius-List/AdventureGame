@@ -1,24 +1,17 @@
 public class Option {
-    private String id;                // Unique ID for the option
-    private String nextScene;         // ID of the next scene if this option is chosen
-    private String text;              // Description of the option
+    private String text;
+    private String nextLocationId;
 
-    public Option(String id, String nextScene, String text) {
-        this.id = id;
-        this.nextScene = nextScene;
+    public Option(String text, String nextLocationId) {
         this.text = text;
-    }
-
-    // Getters to access option properties
-    public String getId() {
-        return id;
-    }
-
-    public String getNextScene() {
-        return nextScene;
+        this.nextLocationId = nextLocationId;
     }
 
     public String getText() {
         return text;
+    }
+
+    public String getNextLocationId() {
+        return nextLocationId;
     }
 }

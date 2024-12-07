@@ -1,78 +1,62 @@
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 public class XMLHandler {
     private Document document;
 
-    public XMLHandler(String urlPath) {
+    public XMLHandler(String filePath) {
         try {
-            URL url = new URL(urlPath);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            InputStream inputStream = connection.getInputStream();
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            document = dBuilder.parse(inputStream);
+            // Åbn lokal fil
+            File xmlFile = new File(filePath);
+
+            // Brug DocumentBuilder til at parse filen
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(xmlFile);
+
+            // Normaliser dokumentet for at håndtere whitespace
             document.getDocumentElement().normalize();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Scene getSceneById(String id) {
-        NodeList nList = document.getElementsByTagName("scene");
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                if (element.getAttribute("id").equals(id)) {
-                    String firstVisit = getElementText(element, "firstVisit");
-                    String secondVisit = getElementText(element, "SecondVisit");
-                    String prompt = getElementText(element, "prompt");
-
-                    // Get options for the scene
-                    List<Option> options = new ArrayList<>();
-                    NodeList optionNodes = element.getElementsByTagName("option");
-                    for (int j = 0; j < optionNodes.getLength(); j++) {
-                        Element optionElement = (Element) optionNodes.item(j);
-                        String optionId = optionElement.getAttribute("id");
-                        String nextScene = optionElement.getAttribute("nextScene");
-                        String optionText = optionElement.getTextContent().trim();
-                        options.add(new Option(optionId, nextScene, optionText));
-                    }
-
-                    // Get random events for the scene, if any
-                    List<RandomEvent> randomEvents = new ArrayList<>();
-                    NodeList randomEventNodes = element.getElementsByTagName("randomEvent");
-                    if (randomEventNodes.getLength() > 0) {
-                        NodeList eventNodes = ((Element) randomEventNodes.item(0)).getElementsByTagName("event");
-                        for (int k = 0; k < eventNodes.getLength(); k++) {
-                            Element eventElement = (Element) eventNodes.item(k);
-                            String probabilityStr = eventElement.getAttribute("probability");
-                            int probability = Integer.parseInt(probabilityStr);
-                            String eventText = eventElement.getTextContent().trim();
-                            randomEvents.add(new RandomEvent(probability, eventText));
-                        }
-                    }
-
-                    return new Scene(id, firstVisit, secondVisit, prompt, options, randomEvents);
-                }
+    // Eksempel på metode til at hente en scene efter ID
+    public Node getSceneById(String id) {
+        NodeList scenes = document.getElementsByTagName("scene");
+        for (int i = 0; i < scenes.getLength(); i++) {
+            Element scene = (Element) scenes.item(i);
+            if (scene.getAttribute("id").equals(id)) {
+                return scene;
             }
         }
         return null;
     }
 
-    private String getElementText(Element parent, String tagName) {
-        NodeList nodeList = parent.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
-            return nodeList.item(0).getTextContent().trim();
+    public Location getLocationById(String id) {
+        System.out.println("Looking for location with ID: " + id); // Debug
+        Node sceneNode = getSceneById(id);
+        if (sceneNode != null) {
+            Element sceneElement = (Element) sceneNode;
+            String description = sceneElement.getElementsByTagName("firstVisit").item(0).getTextContent();
+
+            Location location = new Location(id, description);
+
+            NodeList options = sceneElement.getElementsByTagName("option");
+            for (int i = 0; i < options.getLength(); i++) {
+                Element optionElement = (Element) options.item(i);
+                String text = optionElement.getTextContent();
+                String nextId = optionElement.getAttribute("id");
+                System.out.println("Adding option: " + text + " -> " + nextId); // Debug
+                location.addOption(new Option(text, nextId));
+            }
+
+            return location;
         }
+        System.out.println("Location not found: " + id); // Debug
         return null;
     }
 }
+

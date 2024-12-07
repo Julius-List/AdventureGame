@@ -1,3 +1,4 @@
+/*
 import java.util.Scanner;
 import java.util.Random;
 
@@ -28,4 +29,4 @@ public abstract class BaseLocation {
     // Abstract method for handling choices in subclasses
     public abstract void handleChoices();
 
-}
+}*/

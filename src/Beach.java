@@ -1,3 +1,4 @@
+/*
 public class Beach extends BaseLocation {
 
     // Constructor
@@ -154,3 +155,4 @@ public class Beach extends BaseLocation {
 
     }
 }
+*/

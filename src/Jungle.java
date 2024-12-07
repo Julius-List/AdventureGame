@@ -1,3 +1,4 @@
+/*
 public class Jungle extends BaseLocation {
 
     // Constructor
@@ -324,4 +325,4 @@ public class Jungle extends BaseLocation {
             ((Beach) gameController.getBeachLocation()).campChoices(); // Casting to Beach object to enter campChoices()
         }
     }
-}
+}*/
