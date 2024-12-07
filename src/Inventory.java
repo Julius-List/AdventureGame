@@ -9,7 +9,7 @@ public class Inventory {
         items = new ArrayList<>();
     }
 
-    // Method to add items to the inventory array list
+    // Method to add item objects to the inventory array list
     public void addItem(Item item) {
         if (!items.contains(item)) {
             items.add(item);
