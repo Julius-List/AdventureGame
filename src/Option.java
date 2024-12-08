@@ -1,17 +1,19 @@
 public class Option {
-    private String text;
-    private String nextLocationId;
+    private String text;       // Teksten for valget
+    private String nextSceneId; // ID for næste scene
 
-    public Option(String text, String nextLocationId) {
+    // Constructor
+    public Option(String text, String nextSceneId) {
         this.text = text;
-        this.nextLocationId = nextLocationId;
+        this.nextSceneId = nextSceneId;
     }
 
+    // Getters
     public String getText() {
         return text;
     }
 
-    public String getNextLocationId() {
-        return nextLocationId;
+    public String getNextSceneId() {
+        return nextSceneId;
     }
 }

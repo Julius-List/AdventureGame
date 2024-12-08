@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 public class GameController {
-    private Location currentLocation;
+    private Scene currentScene;
     private boolean isFirstGame = true;
     private final Scanner scanner = new Scanner(System.in);
-    private final XMLHandler xmlHandler; // XMLHandler er nu en dependency
+    private final XMLHandler xmlHandler;
 
     // Constructor modtager XMLHandler som parameter
     public GameController(XMLHandler xmlHandler) {
@@ -17,32 +17,37 @@ public class GameController {
             System.out.println("You wake up on the beach of a deserted island. You feel disoriented but determined to survive.");
             isFirstGame = false;
         }
-        loadLocation("Start"); // Start med scenen med id "Start"
+        loadScene("Start"); // Start med scenen med ID "Start"
     }
 
-    // Metode til at indlæse en lokation baseret på dens ID
-    public void loadLocation(String locationId) {
-        Location location = xmlHandler.getLocationById(locationId); // Hent lokationen fra XML
-        if (location != null) {
-            currentLocation = location;
-            displayLocation(); // Vis lokationen for spilleren
+    // Metode til at indlæse en scene baseret på dens ID
+    public void loadScene(String sceneId) {
+        Scene scene = xmlHandler.getSceneById(sceneId); // Hent scenen fra XML
+        if (scene != null) {
+            currentScene = scene;
+            displayScene(); // Vis scenen for spilleren
         } else {
-            System.out.println("Location not found: " + locationId);
-            gameOver(); // Slut spillet, hvis lokationen ikke findes
+            System.out.println("Scene not found: " + sceneId);
+            gameOver(); // Slut spillet, hvis scenen ikke findes
         }
     }
 
-    // Vis den aktuelle lokation og valgmuligheder for spilleren
-    public void displayLocation() {
-        System.out.println(currentLocation.getDescription()); // Beskrivelse af lokationen
+    // Vis den aktuelle scene og valgmuligheder for spilleren
+    public void displayScene() {
+        // Vis første besøgstekst eller prompt
+        if (currentScene.getFirstVisit() != null && isFirstGame) {
+            System.out.println(currentScene.getFirstVisit());
+        } else {
+            System.out.println(currentScene.getPrompt());
+        }
 
         // Vis valgmuligheder
-        if (currentLocation.getOptions().isEmpty()) {
+        if (currentScene.getOptions().isEmpty()) {
             System.out.println("No options available. Game over!");
             gameOver();
         } else {
-            for (int i = 0; i < currentLocation.getOptions().size(); i++) {
-                System.out.println((i + 1) + ": " + currentLocation.getOptions().get(i).getText());
+            for (int i = 0; i < currentScene.getOptions().size(); i++) {
+                System.out.println((i + 1) + ": " + currentScene.getOptions().get(i).getText());
             }
 
             // Håndter spillerens valg
@@ -53,12 +58,12 @@ public class GameController {
     // Håndter spillerens valg
     public void handlePlayerChoice() {
         int choice = scanner.nextInt();
-        if (choice < 1 || choice > currentLocation.getOptions().size()) {
-            printInvalidChoiceMessage(currentLocation.getOptions().size());
+        if (choice < 1 || choice > currentScene.getOptions().size()) {
+            printInvalidChoiceMessage(currentScene.getOptions().size());
             handlePlayerChoice();
         } else {
-            String nextLocationId = currentLocation.getOptions().get(choice - 1).getNextLocationId();
-            loadLocation(nextLocationId); // Gå til næste lokation
+            String nextSceneId = currentScene.getOptions().get(choice - 1).getNextSceneId();
+            loadScene(nextSceneId); // Gå til næste scene
         }
     }
 

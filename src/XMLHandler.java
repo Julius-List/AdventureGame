@@ -2,61 +2,62 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XMLHandler {
     private Document document;
 
     public XMLHandler(String filePath) {
         try {
-            // Åbn lokal fil
             File xmlFile = new File(filePath);
-
-            // Brug DocumentBuilder til at parse filen
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
-
-            // Normaliser dokumentet for at håndtere whitespace
             document.getDocumentElement().normalize();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Eksempel på metode til at hente en scene efter ID
-    public Node getSceneById(String id) {
+    public Scene getSceneById(String id) {
         NodeList scenes = document.getElementsByTagName("scene");
         for (int i = 0; i < scenes.getLength(); i++) {
-            Element scene = (Element) scenes.item(i);
-            if (scene.getAttribute("id").equals(id)) {
-                return scene;
+            Element sceneElement = (Element) scenes.item(i);
+            if (sceneElement.getAttribute("id").equals(id)) {
+                String firstVisit = sceneElement.getElementsByTagName("firstVisit").getLength() > 0
+                        ? sceneElement.getElementsByTagName("firstVisit").item(0).getTextContent()
+                        : null;
+
+                String secondVisit = sceneElement.getElementsByTagName("SecondVisit").getLength() > 0
+                        ? sceneElement.getElementsByTagName("SecondVisit").item(0).getTextContent()
+                        : null;
+
+                String prompt = sceneElement.getElementsByTagName("prompt").getLength() > 0
+                        ? sceneElement.getElementsByTagName("prompt").item(0).getTextContent()
+                        : null;
+
+                List<Option> options = new ArrayList<>();
+                NodeList optionNodes = sceneElement.getElementsByTagName("option");
+                for (int j = 0; j < optionNodes.getLength(); j++) {
+                    Element optionElement = (Element) optionNodes.item(j);
+                    String text = optionElement.getTextContent().trim();
+                    String nextScene = optionElement.getAttribute("nextScene");
+                    options.add(new Option(text, nextScene));
+                }
+
+                List<RandomEvent> randomEvents = new ArrayList<>();
+                NodeList eventNodes = sceneElement.getElementsByTagName("randomEvent");
+                for (int j = 0; j < eventNodes.getLength(); j++) {
+                    Element eventElement = (Element) eventNodes.item(j);
+                    int probability = Integer.parseInt(eventElement.getAttribute("probability"));
+                    String eventText = eventElement.getTextContent();
+                    randomEvents.add(new RandomEvent(probability, eventText));
+                }
+
+                return new Scene(id, firstVisit, secondVisit, prompt, options, randomEvents);
             }
         }
-        return null;
-    }
-
-    public Location getLocationById(String id) {
-        System.out.println("Looking for location with ID: " + id); // Debug
-        Node sceneNode = getSceneById(id);
-        if (sceneNode != null) {
-            Element sceneElement = (Element) sceneNode;
-            String description = sceneElement.getElementsByTagName("firstVisit").item(0).getTextContent();
-
-            Location location = new Location(id, description);
-
-            NodeList options = sceneElement.getElementsByTagName("option");
-            for (int i = 0; i < options.getLength(); i++) {
-                Element optionElement = (Element) options.item(i);
-                String text = optionElement.getTextContent();
-                String nextId = optionElement.getAttribute("id");
-                System.out.println("Adding option: " + text + " -> " + nextId); // Debug
-                location.addOption(new Option(text, nextId));
-            }
-
-            return location;
-        }
-        System.out.println("Location not found: " + id); // Debug
         return null;
     }
 }
-
