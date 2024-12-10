@@ -28,7 +28,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You decide to take the path to your right.\nYou notice that one of the trees you walk past is bearing fruits.");
-                handleFruitChoices();
+                handleFruitTreeChoices();
                 break;
             case 3:
                 System.out.println("You can't shake the feeling that something is wrong. You decide to go back to the beach.");
@@ -41,28 +41,29 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleFruitChoices() {
+    private void handleFruitTreeChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Try to grab the fruit");
         System.out.println("2: Continue through the jungle");
 
-        int fruitChoice = scanner.nextInt();
+        int choice = scanner.nextInt();
 
-        if (fruitChoice == 1) {
+        if (choice == 1) {
             int chance = random.nextInt(4);
-            if (chance == 0) {
+
+            if (chance == 0) { // 25% chance
                 System.out.println("As you try to grab a fruit, a snake lunges out from the tree and bites your hand!");
                 player.loseHealth(1);
                 System.out.println("Your hand hurts, but you got to keep on moving.");
-                handleAfterFruitTree();
-            } else {
+                prettyLeafEvent();
+            } else { // 75% chance
                 System.out.println("You try to grab one of the fruits. As you take a bite, you feel nourished.");
                 player.gainHealth(1);
-                handleAfterFruitTree();
+                prettyLeafEvent();
             }
-        } else if (fruitChoice == 2) {
+        } else if (choice == 2) {
             System.out.println("You decide to ignore the fruit tree and continue through the jungle.");
-            continueJungleChoices();
+            streamChoices();
         } else {
             gameController.printInvalidChoiceMessage(2);
             handleChoices();
@@ -83,7 +84,7 @@ public class Jungle extends BaseLocation {
                 break;
             case 2:
                 System.out.println("You continue deeper into the jungle, ready for the unknown.");
-                continueJungleChoices();
+                streamChoices();
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
@@ -92,26 +93,27 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    public void handleAfterFruitTree() {
+    public void prettyLeafEvent() {
         System.out.println("\nYou continue walking and stumble upon a leaf. A pretty leaf... You put it in your pocket.");
         player.getInventory().addItem(Item.PRETTY_LEAF);
 
-        int chance = random.nextInt(4); // Generates a random integer between 1-4
+        int chance = random.nextInt(4);
 
-        if (chance < 3) { // If the random generated number is < 3 (75% chance), the game is won
+        if (chance < 3) { // 75% chance the game is won
             System.out.println("\nAll of a sudden you hear the sound of a horn coming from the beach. A ship? Could it be?" +
                     "\nYou start sprinting back to the beach where you see a vessel in the sea. You jump and wave with " +
                     "your arms, and the ship notices you.\n");
             gameController.gameWon();
-        } else { // If the random generated number is not < 3 (25% chance), the game is lost
+        } else { // 25% chance the game is lost
             System.out.println("\nAs you are marching through the foliage, you notice your skin starts to flare up " +
                     "after touching the leaf. \nYou feel your throat swelling and you start suffocating.\n");
             player.loseHealth(player.getHealth()); // Player loses his current health
         }
     }
 
-    private void continueJungleChoices() {
+    private void streamChoices() {
         System.out.println("As you walk, you come across a small stream of freshwater.");
+        System.out.println("What would you like to do?");
         System.out.println("1: Drink from the stream");
         System.out.println("2: Ignore the stream and continue walking");
 
@@ -130,16 +132,16 @@ public class Jungle extends BaseLocation {
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
-                continueJungleChoices();
+                streamChoices();
                 break;
         }
     }
 
     private void drinkFromStreamChoices() {
-        handleDrinkFromStreamOutcomes();
+        handleDrinkFromStreamEvent();
         System.out.println("What would you like to do next?");
         System.out.println("1: Continue through the jungle");
-        System.out.println("2. Walk back to the beach");
+        System.out.println("2: Walk back to the beach");
 
         int choice = scanner.nextInt();
 
@@ -158,13 +160,13 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleDrinkFromStreamOutcomes() {
+    private void handleDrinkFromStreamEvent() {
         int chance = random.nextInt(4);
 
-        if (chance == 0) {
+        if (chance == 0) { // 25% chance
             System.out.println("You bow down and drink from the stream, but the taste of the water is foul.");
             player.loseHealth(1);
-        } else {
+        } else { // 75% chance
             System.out.println("You bow down and drink from the stream. You feel nourished.");
             player.gainHealth(1);
         }
@@ -172,8 +174,9 @@ public class Jungle extends BaseLocation {
 
     private void tarantulaChoices() {
         System.out.println("You continue your trek in the jungle. As you walk, you feel something itching on your neck.");
+        System.out.println("What would you like to do?");
         System.out.println("1: Ignore the feeling");
-        System.out.println("2. Itch your neck");
+        System.out.println("2: Itch your neck");
 
         int choice = scanner.nextInt();
 
@@ -188,12 +191,13 @@ public class Jungle extends BaseLocation {
                 player.loseHealth(1);
                 fishingHatEvent();
                 break;
-                default:
-                    gameController.printInvalidChoiceMessage(2);
-                    tarantulaChoices();
-                    break;
+            default:
+                gameController.printInvalidChoiceMessage(2);
+                tarantulaChoices();
+                break;
         }
     }
+
     private void fishingHatEvent() {
         System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
             "Neat! You put it in your pocket.");
@@ -204,6 +208,7 @@ public class Jungle extends BaseLocation {
 }
 
     private void hillChoices() {
+        System.out.println("What would you like to do?");
         System.out.println("1: Walk along the hill");
         System.out.println("2: Walk up the hill");
 
@@ -214,7 +219,7 @@ public class Jungle extends BaseLocation {
                 System.out.println("As you continue to walk along the hill you daydream about the fruit tree that " +
                         "you chose to ignore earlier. \nIt is almost completely dark now and you can barely stand on " +
                         "your feet from sheer exhaustion.");
-                handleRestChoices();
+                forcedRestChoice();
                 break;
             case 2:
                 System.out.println("Fatigued, you make it to the top of the hill. It is almost completely dark now.\n" +
@@ -230,6 +235,7 @@ public class Jungle extends BaseLocation {
     }
 
     private void handleTopOfHillChoices() {
+        System.out.println("What would you like to do?");
         System.out.println("1: Turn around and go back");
         System.out.println("2: Walk closer to the village");
 
@@ -245,15 +251,16 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleRestChoices() {
+    private void forcedRestChoice() {
         boolean validInput = false;
 
         while (!validInput) {
+            System.out.println("What would you like to do?");
             System.out.println("1: Rest");
 
-            int restChoice = scanner.nextInt();
+            int choice = scanner.nextInt();
 
-            if (restChoice == 1) {
+            if (choice == 1) {
                 System.out.println("As you sit down by one of the many trees, you feel relaxed and close your " +
                         "eyes.\nThe darkness and cold surrounds you.");
                 player.loseHealth(player.getHealth()); // Player loses his current health
@@ -264,6 +271,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
+    // Inventory dependent: if player has pretty rock they win, if not, the story continues
     private void inventoryDependentEvent() {
         if (player.getInventory().containsItem(Item.PRETTY_ROCK.getName())) {
             System.out.println("On your last legs, you make it to the village and approach the villagers. " +
@@ -278,21 +286,22 @@ public class Jungle extends BaseLocation {
             System.out.println("\nYou wake up feeling better, despite your body aching from sleeping on the cold ground. " +
                     "You know you must keep moving.\n" +
                     "As you walk, you find yourself back on the beach where you discover a lookout post. " +
-                    "The ladder seems withered.\n\n" +
-                    "Do you climb it, or decide against it and keep walking?");
-            System.out.println("1: Attempt to climb the ladder");
-            System.out.println("2: Continue walking on the beach");
-            lookoutPostEvent();
+                    "The ladder seems withered.\n\n");
+            lookoutPostChoices();
         }
     }
 
-    public void lookoutPostEvent() {
+    public void lookoutPostChoices() {
+        System.out.println("What would you like to do?");
+        System.out.println("1: Attempt to climb the ladder");
+        System.out.println("2: Continue walking on the beach");
+
         int choice = scanner.nextInt();
 
         switch (choice) {
             case 1:
                 System.out.println("You attempt to climb the ladder.\n...");
-                handleLadderClimb();
+                climbLadderEvent();
                 break;
             case 2:
                 System.out.println("You continue walking on the beach and end up where you woke up.");
@@ -300,12 +309,12 @@ public class Jungle extends BaseLocation {
                 break;
             default:
                 gameController.printInvalidChoiceMessage(2);
-                lookoutPostEvent();
+                lookoutPostChoices();
                 break;
         }
     }
 
-    public void handleLadderClimb() {
+    public void climbLadderEvent() {
         int chance = random.nextInt(5);
 
         if (chance == 0) { // 20% chance

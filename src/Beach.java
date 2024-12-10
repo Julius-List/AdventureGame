@@ -99,11 +99,11 @@ public class Beach extends BaseLocation {
 
     public void makeCampEvent() {
         System.out.println("After a lot of struggle, you manage to build a makeshift camp out of the wood and leaves.");
-        inventoryDependentEvent();
+        makeFireEvent();
     }
 
-    // If player has a lighter, they create a fire, otherwise they attempt to create one without
-    public void inventoryDependentEvent() {
+    // Inventory dependent: If player has a lighter, they create a fire, otherwise they attempt to create one without
+    public void makeFireEvent() {
         if (player.getInventory().containsItem(Item.LIGHTER.getName())) {
             startFireWithLighterEvent();
         } else {
@@ -121,10 +121,10 @@ public class Beach extends BaseLocation {
 
         int chance = random.nextInt(4);
 
-        if (chance == 0) {
+        if (chance == 0) { // 25% chance
             System.out.println("After many failed attempts, you manage to get a spark going and build a fire!");
             wakeUpByFireEvent();
-        } else {
+        } else { // 75% chance
             System.out.println("No matter how hard you try, you can't get the leaves to ignite. You shiver " +
                     "through the night, but manage to get through with some palm leaves as cover. ");
             System.out.println("You continue exploring the beach and find a broken but functional fishing rod!");
@@ -142,15 +142,15 @@ public class Beach extends BaseLocation {
 
         int chance = random.nextInt(4);
 
-        if (chance == 0) {
+        if (chance == 0) { // 25% chance
             System.out.println("\nAs the fire crackles, you are suddenly woken up by the sound of a boat!" +
                     "\nThey noticed the fire!\nYou instantly stand up and start waving your arms, and the boat" +
                     "speeds up to come and rescue you from the island.");
             gameController.gameWon();
-        } else {
+        } else { // 75% chance
             System.out.println("Despite the glowing fire, no help came during the night.");
             System.out.println("You die of cold and loneliness.");
-            player.loseHealth(player.getHealth());
+            player.loseHealth(player.getHealth()); // Player loses his current health
         }
     }
 }
