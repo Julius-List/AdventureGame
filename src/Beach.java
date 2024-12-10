@@ -105,24 +105,25 @@ public class Beach extends BaseLocation {
     // If player has a lighter, they create a fire, otherwise they attempt to create one without
     public void inventoryDependentEvent() {
         if (player.getInventory().containsItem(Item.LIGHTER.getName())) {
-            startFireWithLighter();
+            startFireWithLighterEvent();
         } else {
-            startFireWithoutLighter();
+            startFireWithoutLighterEvent();
         }
     }
 
-    public void startFireWithLighter() {
+    public void startFireWithLighterEvent() {
         System.out.println("With the lighter from your pocket, you get a fire started to keep you warm.");
+        wakeUpByFireEvent();
     }
 
-    public void startFireWithoutLighter() {
+    public void startFireWithoutLighterEvent() {
         System.out.println("You attempt to start a fire with a stick and some leaves...");
 
-        int chance = random.nextInt(4); // 25% chance to succeed in making a fire
+        int chance = random.nextInt(4);
 
         if (chance == 0) {
             System.out.println("After many failed attempts, you manage to get a spark going and build a fire!");
-            wakeUpByFire();
+            wakeUpByFireEvent();
         } else {
             System.out.println("No matter how hard you try, you can't get the leaves to ignite. You shiver " +
                     "through the night, but manage to get through with some palm leaves as cover. ");
@@ -135,14 +136,14 @@ public class Beach extends BaseLocation {
         }
     }
 
-    public void wakeUpByFire() {
+    public void wakeUpByFireEvent() {
         System.out.println("You sleep as comfortably as one can do on the beach.");
         player.gainHealth(1);
 
         int chance = random.nextInt(4);
 
         if (chance == 0) {
-            System.out.println("\n...\nAs the fire crackles, you are suddenly woken up by the sound of a boat!" +
+            System.out.println("\nAs the fire crackles, you are suddenly woken up by the sound of a boat!" +
                     "\nThey noticed the fire!\nYou instantly stand up and start waving your arms, and the boat" +
                     "speeds up to come and rescue you from the island.");
             gameController.gameWon();
@@ -151,6 +152,5 @@ public class Beach extends BaseLocation {
             System.out.println("You die of cold and loneliness.");
             player.loseHealth(player.getHealth());
         }
-
     }
 }
