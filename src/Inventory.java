@@ -3,7 +3,7 @@ import java.util.List;
 
 // Class to manage a collection of item objects
 public class Inventory {
-    private final List<Item> items;
+    final List<Item> items;
 
     public Inventory() {
         items = new ArrayList<>();
