@@ -22,10 +22,4 @@ public class Item {
     public String getName() {
         return name;
     }
-
-    // Overrides the called item so it displays correctly in the log
-    @Override
-    public String toString() {
-        return name;
-    }
 }
