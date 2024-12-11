@@ -41,7 +41,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleFruitTreeChoices() {
+    public void handleFruitTreeChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Try to grab the fruit");
         System.out.println("2: Continue through the jungle");
@@ -111,7 +111,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void streamChoices() {
+    public void streamChoices() {
         System.out.println("As you walk, you come across a small stream of freshwater.");
         System.out.println("What would you like to do?");
         System.out.println("1: Drink from the stream");
@@ -137,7 +137,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void drinkFromStreamChoices() {
+    public void drinkFromStreamChoices() {
         handleDrinkFromStreamEvent();
         System.out.println("What would you like to do next?");
         System.out.println("1: Continue through the jungle");
@@ -160,7 +160,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleDrinkFromStreamEvent() {
+    public void handleDrinkFromStreamEvent() {
         int chance = random.nextInt(4);
 
         if (chance == 0) { // 25% chance
@@ -172,7 +172,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void tarantulaChoices() {
+    public void tarantulaChoices() {
         System.out.println("You continue your trek in the jungle. As you walk, you feel something itching on your neck.");
         System.out.println("What would you like to do?");
         System.out.println("1: Ignore the feeling");
@@ -198,7 +198,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void fishingHatEvent() {
+    public void fishingHatEvent() {
         System.out.println("You continue walking, looking for anything of use.\nYou find a fishing hat. " +
             "Neat! You put it in your pocket.");
         player.getInventory().addItem(Item.FISHING_HAT);
@@ -207,7 +207,7 @@ public class Jungle extends BaseLocation {
         gameController.showStartChoices();
 }
 
-    private void hillChoices() {
+    public void hillChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Walk along the hill");
         System.out.println("2: Walk up the hill");
@@ -234,7 +234,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void handleTopOfHillChoices() {
+    public void handleTopOfHillChoices() {
         System.out.println("What would you like to do?");
         System.out.println("1: Turn around and go back");
         System.out.println("2: Walk closer to the village");
@@ -251,7 +251,7 @@ public class Jungle extends BaseLocation {
         }
     }
 
-    private void forcedRestChoice() {
+    public void forcedRestChoice() {
         boolean validInput = false;
 
         while (!validInput) {
@@ -272,7 +272,7 @@ public class Jungle extends BaseLocation {
     }
 
     // Inventory dependent: if player has pretty rock they win, if not, the story continues
-    private void inventoryDependentEvent() {
+    public void inventoryDependentEvent() {
         if (player.getInventory().containsItem(Item.PRETTY_ROCK.getName())) {
             System.out.println("On your last legs, you make it to the village and approach the villagers. " +
                     "You take the pretty rock that you found in the sea out of your pocket and present it to the " +

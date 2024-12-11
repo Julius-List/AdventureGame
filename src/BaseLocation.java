@@ -16,7 +16,7 @@ public abstract class BaseLocation {
         this.player = player;
     }
 
-    // Concrete method to print unique entry messages and show first choices in subclasses
+    // Method to print unique entry messages and show first choices in subclasses
     public void enter() {
         System.out.println(getEntryMessage());
         handleChoices();

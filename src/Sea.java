@@ -34,7 +34,7 @@ public class Sea extends BaseLocation {
         }
     }
 
-    private void swimmingEvent() {
+    public void swimmingEvent() {
         System.out.println("You swim into the refreshing, cool waters." + "\n...");
 
         int chance = random.nextInt(4);
