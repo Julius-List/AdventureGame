@@ -28,4 +28,8 @@ public class Inventory {
         }
         return false;
     }
+
+    // added for debug test
+    public void removeItem(String lighter) {
+    }
 }
