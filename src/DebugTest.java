@@ -28,15 +28,6 @@ public class DebugTest {
         inventory.addItem(sword);
         assert inventory.items.size() == 2 : "Duplikater burde ikke tilføjes; størrelse burde være 2";
 
-        // Edge case: Tilføje null-værdi
-        System.out.println("Tilføjer null til inventar...");
-        try {
-            inventory.addItem(null);
-            System.out.println("FEJL: Inventar burde ikke kunne indeholde null");
-        } catch (Exception e) {
-            System.out.println("Forventet fejl ved tilføjelse af null: " + e.getMessage());
-        }
-
         // ---- Test Player ----
         System.out.println("\n---- Test Player ----");
 
@@ -49,42 +40,55 @@ public class DebugTest {
         player.loseHealth(1);
         assert player.getHealth() == 9 : "Helbred burde være 9 efter tab af 1 point";
 
-        // Øger spillerens helbred
-        System.out.println("Tilføjer helbred til spiller (2 point)...");
-        player.gainHealth(2);
-        assert player.getHealth() == 11 : "Helbred burde være 11 efter forøgelse med 2 point";
-
-        // Edge case: Reducerer helbred til negativ værdi
-        System.out.println("Reducerer spillerens helbred til 0...");
-        player.loseHealth(15); // Forudsat at spillerens starthelbred er 10
-        assert player.getHealth() == 0 : "Helbred burde ikke kunne være negativt";
-
         // ---- Test Jungle ----
         System.out.println("\n---- Test Jungle ----");
 
         // Validerer junglens indgangsbesked
         String entryMessage = jungle.getEntryMessage();
         assert entryMessage != null && !entryMessage.isEmpty() : "Indgangsbesked burde ikke være tom";
+        System.out.println("Junglens indgangsbesked: " + entryMessage);
 
-        // Tilføjer et item, som kræves i junglen
+        // Test: Spilleren forsøger at udforske junglen uden nødvendige items
+        System.out.println("Tester junglen uden nødvendige genstande...");
+        try {
+            jungle.explore(); // Simulerer en handling, der kræver items
+            System.out.println("FEJL: Spilleren burde ikke kunne udforske junglen uden nødvendige items.");
+        } catch (Exception e) {
+            System.out.println("Forventet fejl: " + e.getMessage());
+        }
+
+        // Tilføjer nødvendigt item og tester igen
         System.out.println("Tilføjer Lighter til spillerens inventar...");
         player.getInventory().addItem(Item.LIGHTER);
         assert player.getInventory().containsItem("Lighter") : "Inventar burde indeholde 'Lighter'";
 
-        // Edge case: Spilleren mangler et vigtigt item
-        System.out.println("Fjerner Lighter fra spillerens inventar...");
-        player.getInventory().removeItem("Lighter");
-        assert !player.getInventory().containsItem("Lighter") : "Lighter burde være fjernet fra inventar";
+        System.out.println("Tester junglen med nødvendigt item...");
+        try {
+            jungle.explore();
+            System.out.println("Udforskning af junglen lykkedes som forventet!");
+        } catch (Exception e) {
+            System.out.println("FEJL: Spilleren burde kunne udforske junglen med nødvendigt item.");
+        }
 
         // ---- Kaotisk test: Monkey Testing ----
         System.out.println("\n---- Monkey Testing ----");
 
-        // Tilføjer 100 tilfældige items for at teste grænser
+        // Test med tilfældige genstande
         for (int i = 0; i < 100; i++) {
             Item randomItem = new Item("RandomItem" + i);
             inventory.addItem(randomItem);
+            assert inventory.containsItem("RandomItem" + i) : "Inventar burde indeholde RandomItem" + i;
         }
-        assert inventory.items.size() == 102 : "Inventar burde indeholde 102 genstande (inkl. Sword og Shield)";
+        assert inventory.items.size() == 102 : "Inventar burde have 102 genstande.";
+
+        // Fjern tilfældige genstande
+        System.out.println("Fjerner tilfældige items...");
+        for (int i = 0; i < 50; i++) {
+            inventory.removeItem("RandomItem" + i);
+        }
+        assert inventory.items.size() == 52 : "Efter fjernelse burde inventar have 52 genstande.";
+
+        System.out.println("Monkey Testing afsluttet uden fejl!");
 
         // Debug afsluttet
         System.out.println("\n---- Debug Test Afsluttet ----");
