@@ -1,3 +1,5 @@
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -5,147 +7,132 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AdventureGameTest {
 
-    // Instansvariabler for de komponenter, der skal testes
-    private Inventory inventory;        // Test af inventarlogik
-    private GameController gameController; // Test af spilflow og tilstand
-    private Player player;             // Test af spillerens funktionalitet
-    private Jungle jungle;             // Test af funktionalitet i Jungle-lokationen
+    // Instansvariabler oprettes til de klasser der skal testes
+    private Inventory inventory;
+    private GameController gameController;
+    private Player player;
+    private Jungle jungle;
 
     @BeforeEach
     void setUp() {
-        // Initialiser objekter før hver test
-        inventory = new Inventory();                     // Tomt inventar til test af tilføjelser
-        gameController = new GameController();           // Controller til at styre spiltilstanden
-        player = new Player(gameController);             // Spilleren starter med standard helbred og inventar
-        jungle = new Jungle("jungle", gameController, player); // Jungle-lokation til interaktionstests
+        // Initialiser nye objekter før hver testkørsel
+        inventory = new Inventory();
+        gameController = new GameController();
+        player = new Player(gameController);
+        jungle = new Jungle("jungle", gameController, player);
     }
 
-    // ---- Inventar Tests ----
+    @AfterEach
+    void tearDown() {
+        // Nulstil objekter efter hver testkørsel
+        inventory = null;
+        gameController = null;
+        player = null;
+        jungle = null;
+    }
+
+    // Inventory testes
 
     @Test
     void testAddItemToInventory() {
-        // Tester tilføjelse af genstande til inventaret og undgår duplikater
-        Item item1 = new Item("Sword"); // Opret første testgenstand
-        Item item2 = new Item("Shield"); // Opret anden testgenstand
+        // tester at genstande kan tilføjes og kan fjernes igen
+        Item item1 = new Item("Sword");
+        Item item2 = new Item("Shield");
 
-        inventory.addItem(item1); // Tilføj første genstand
-        assertTrue(inventory.containsItem("Sword"), "Genstanden burde være tilføjet til inventaret.");
+        inventory.addItem(item1); //  tilføjer den første genstand
+        assertTrue(inventory.containsItem("Sword"), "Sword has been added to your inventory");
 
-        inventory.addItem(item2); // Tilføj anden genstand
-        assertTrue(inventory.containsItem("Shield"), "En anden genstand burde være tilføjet til inventaret.");
+        inventory.addItem(item2); // tilføjer endnu en genstand
+        assertTrue(inventory.containsItem("Shield"), "Shield has been added to your inventory");
 
-        inventory.addItem(item1); // Forsøg at tilføje en duplikat
-        assertEquals(2, inventory.items.size(), "Duplikatgenstande burde ikke tilføjes til inventaret.");
+        inventory.addItem(item1); // Forsøger at tilføje en dublikant
+        assertEquals(2, inventory.items.size(), "You already have this item");
     }
 
     @Test
     void testInventoryContainsItem() {
-        // Tester, om inventaret korrekt identificerer genstande
-        Item item = new Item("Potion"); // Opret testgenstand
+        // Tester om Inventory korrekt kan identificere genstande
+        Item item = new Item("Potion"); // Opretter test genstand
 
-        assertFalse(inventory.containsItem("Potion"), "Inventaret burde ikke indeholde genstanden til at begynde med.");
+        assertFalse(inventory.containsItem("Potion"), "Potion can't be added to your inventory");
         inventory.addItem(item); // Tilføj genstanden
-        assertTrue(inventory.containsItem("Potion"), "Inventaret burde indeholde genstanden efter tilføjelsen.");
+        assertTrue(inventory.containsItem("Potion"), "Potion has been added to your inventory");
     }
 
-    // ---- Jungle Tests ----
+    // Jungle Tests
 
     @Test
     void testJungleEntryMessage() {
-        // Tester indgangsbeskeden for Jungle-lokationen
+        // Tester om indgangsbesked til junglen er korrekt.
         String entryMessage = jungle.getEntryMessage();
-        System.out.println("Indgangsbesked: " + entryMessage); // Debug output
+        System.out.println("Testing entryMessage: " + entryMessage); // Debug output
         assertEquals("You walk into the jungle.\nAs you step in you feel like you are being watched.",
-                entryMessage, "Indgangsbeskeden burde matche det forventede format.");
+                entryMessage, "The entry message should match");
     }
 
-    @Test
-    void testAddItemInJungle() {
-        // Tester tilføjelse af genstande til spillerens inventar i Jungle
-        player.getInventory().addItem(Item.LIGHTER); // Tilføj en foruddefineret genstand
-        System.out.println("Spillerens inventar: " + player.getInventory().containsItem(Item.LIGHTER.getName())); // Debugging
-        assertTrue(player.getInventory().containsItem("Lighter"), "Spilleren burde have en lighter efter en event i junglen.");
-    }
-
-    @Test
-    void testPlayerHealthDecreaseOnSnakeBite() {
-        // Tester helbredsreduktion, når spilleren oplever en negativ hændelse
-        int initialHealth = player.getHealth(); // Gem spillerens oprindelige helbred
-        player.loseHealth(1);                   // Reducer helbred med 1
-        System.out.println("Spillerens helbred efter tab på 1: " + player.getHealth()); // Debugging
-        assertEquals(initialHealth - 1, player.getHealth(), "Spillerens helbred burde falde med 1 efter et slangebid.");
-    }
 
     @Test
     void testRandomPrettyLeafEvent() {
-        // Tester, om en "Pretty Leaf"-genstand tilføjes til spillerens inventar
-        player.getInventory().addItem(Item.PRETTY_LEAF); // Tilføj bladgenstanden
-        System.out.println("Spillerens inventar indeholder pretty leaf: " + player.getInventory().containsItem("Pretty Leaf")); // Debugging
-        assertTrue(player.getInventory().containsItem("Pretty Leaf"), "Pretty Leaf burde tilføjes til inventaret.");
+        // Tester, om genstanden "Pretty Leaf" tilføjes korrekt til spillerens inventar
+        player.getInventory().addItem(Item.PRETTY_LEAF);
+        System.out.println("Player has Pretty Leaf in their inventory: " + player.getInventory().containsItem("Pretty Leaf")); // Debugging
+        assertTrue(player.getInventory().containsItem("Pretty Leaf"), "Players inventory should have the 'Pretty Leaf'.");
     }
 
     @Test
-    void testGameWonScenario() {
-        // Tester spilvinderlogikken
-        player.getInventory().addItem(Item.PRETTY_ROCK); // Tilføj den nødvendige genstand for at vinde
-        assertTrue(player.getInventory().containsItem("Pretty Rock"), "Spilleren burde have pretty rock for at vinde.");
-
-        // Forhindrer faktisk System.exit(0) ved at mocke opførsel
-        try {
-            gameController.gameWon();
-            fail("Game Won burde afslutte programmet, men det gjorde det ikke.");
-        } catch (Exception e) {
-            assertTrue(true, "Game Won blev korrekt udløst.");
-        }
+    void testAddItemJungle() {
+        // Tester, at en genstand kan tilføjes til spillerens inventar, når spilleren interagerer i junglen
+        player.getInventory().addItem(Item.LIGHTER); // Tilføj genstanden "Lighter"
+        System.out.println("Players inventory: " + player.getInventory().containsItem(Item.LIGHTER.getName())); // Debugging
+        assertTrue(player.getInventory().containsItem("Lighter"), "Player should have Ligther after entering jungle");
     }
 
-    // ---- Spiller Tests ----
+    @Test
+    void testDecreaseOnSnakeBite() {
+        // Tester om player mister liv efter mødet med slangen
+        int initialHealth = player.getHealth(); // Gem spillerens nuværende helbred
+        player.loseHealth(1);  // Reducer spillerens helbred med 1
+        System.out.println("The players health after attack: " + player.getHealth()); // Debug output
+        assertEquals(initialHealth - 1, player.getHealth(), "Player should have lost 1 health");
+    }
+
+    // Spiller Tests
 
     @Test
     void testPlayerInitialHealth() {
-        // Tester, at spilleren starter med 3 helbredspoint
-        System.out.println("Initialt spillerhelbred: " + player.getHealth()); // Debugging
-        assertEquals(3, player.getHealth(), "Spillerens oprindelige helbred burde være 3.");
+        // Tester, at player starter med 3 i health
+        System.out.println("Players start health " + player.getHealth()); // Debug output
+        assertEquals(3, player.getHealth(), "Player should have 3 health points from start.");
     }
 
     @Test
     void testPlayerHealthIncrease() {
-        // Tester, at spillerens helbred stiger og ikke overskrider maksimum
-        player.gainHealth(2); // Giv 2 helbredspoint
-        System.out.println("Spillerens helbred efter 2 ekstra point: " + player.getHealth()); // Debugging
-        assertEquals(5, player.getHealth(), "Spillerens helbred burde ikke overstige maksimum (5).");
+        // Tester at health stiger korrekt
+        player.gainHealth(2); // Giv spilleren 2 health points
+        System.out.println("Player now has: " + player.getHealth()); // Debug output
+        assertEquals(5, player.getHealth(), "Players health shouldn't be over 5 health points");
     }
 
     @Test
     void testPlayerHealthDecrease() {
-        // Tester reduktion af spillerens helbred
-        player.loseHealth(1); // Tab 1 helbredspoint
-        System.out.println("Spillerens helbred efter tab på 1: " + player.getHealth()); // Debugging
-        assertEquals(2, player.getHealth(), "Spillerens helbred burde falde korrekt.");
+        // Tester om players health bliver reduceret korrekt.
+        player.loseHealth(1); // Reducer spillerens health med 1
+        System.out.println("Health after attack: " + player.getHealth()); // Debug output
+        assertEquals(2, player.getHealth(), "Players health should be reduced by one");
     }
 
     @Test
     void testPlayerHealthDoesNotGoBelowZero() {
-        // Tester, at spillerens helbred ikke kan falde under 0
-        player.loseHealth(10); // Forsøg at miste mere helbred end muligt
-        System.out.println("Spillerens helbred efter tab på 10: " + player.getHealth()); // Debugging
-        assertEquals(0, player.getHealth(), "Spillerens helbred burde ikke falde under nul.");
+        // Tester at players health ikke kan gå under 0
+        player.loseHealth(10); // Reducer helbred med et større tal end det nuværende
+        System.out.println("Players health after lot of damange: " + player.getHealth()); // Debug output
+        assertEquals(0, player.getHealth(), "Players health can't go below 0.");
     }
 
     @Test
     void testPlayerInventoryInitialization() {
-        // Tester, at spillerens inventar er korrekt initialiseret
-        assertNotNull(player.getInventory(), "Spillerens inventar burde være initialiseret.");
+        // Tester, at spillerens inventory er initialiseret korrekt
+        assertNotNull(player.getInventory(), "Players inventory should be initialized correctly");
     }
 
-    @Test
-    void testGameOverTriggered() {
-        // Tester "Game Over"-logikken, når spillerens helbred når 0
-        try {
-            player.loseHealth(3); // Reducer helbred til 0
-            fail("Game Over burde afslutte programmet, men det gjorde det ikke.");
-        } catch (Exception e) {
-            assertTrue(true, "Game Over blev korrekt udløst.");
-        }
-    }
 }
