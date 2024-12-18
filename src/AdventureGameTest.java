@@ -1,4 +1,3 @@
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +45,7 @@ class AdventureGameTest {
         assertTrue(inventory.containsItem("Shield"), "Shield has been added to your inventory");
 
         inventory.addItem(item1); // Forsøger at tilføje en dublikant
-        assertEquals(2, inventory.items.size(), "You already have this item");
+        assertEquals(2, inventory.items.size(), "Sword is already in the inventory");
     }
 
     @Test
