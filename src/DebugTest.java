@@ -70,8 +70,8 @@ public class DebugTest {
             System.out.println("Error: player should have the necessary item to explore jungle");
         }
 
-        // ---- Kaotisk test: Monkey Testing ----
-        System.out.println("\n---- Monkey Testing ----");
+        // ---- Kaotisk test ----
+        System.out.println("\n---- Chaotic Testing ----");
 
         // Test med tilfældige genstande
         for (int i = 0; i < 100; i++) {
